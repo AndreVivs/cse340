@@ -2,5 +2,152 @@
 *,
 *:before,
 *:after {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
+}
+
+/********************* variables *********************/
+:root {
+  --font-title: "Montserrat", "Playfair Display", sans-serif;
+  --font-body: "Roboto", "Open Sans", sans-serif;
+  --filling-color: #4c96d7;
+  --nav-color: #1e2a33;
+  --white: #fff;
+  --transparency-color: #ffffff73;
+  --transparency-color2: #aaaaac60;
+}
+
+/********************* Header *********************/
+#top-header {
+  display: flex;
+  justify-content: space-between;
+  margin: 2% 3% 3% 2%;
+}
+
+.siteName a,
+#tools a {
+  color: var(--nav-color);
+  text-decoration: none;
+}
+
+.siteName a {
+  font-size: 2rem;
+}
+
+/********************* Navigation *********************/
+nav {
+  margin: 0 1% 0 1%;
+  background-color: var(--nav-color);
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 3% 2%;
+  min-height: 35%;
+}
+
+nav ul li {
+  color: var(--white);
+  font-size: 1.2rem;
+}
+
+/********************* Main *********************/
+body {
+  margin: 0 2%;
+  font-family: var(--font-body);
+}
+
+main {
+  margin: 0 3%;
+}
+
+h1,
+h2 {
+  font-family: var(--font-title);
+}
+
+h1 {
+  font-size: 1.2rem;
+  margin: 1rem 0;
+}
+
+.hero {
+  position: relative;
+  margin-bottom: 25px;
+}
+
+.hero picture img {
+  display: block;
+  margin: 0 auto;
+  width: 250px;
+}
+
+.hero__content {
+  position: absolute;
+  top: 0;
+  left: 10px;
+  color: var(--filling-color);
+  background-color: var(--transparency-color);
+}
+
+.hero__content img {
+  width: 90px;
+  border-radius: 3px;
+}
+
+section h2 {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+}
+
+section ul {
+  padding-left: 20px;
+}
+
+section li {
+  margin-bottom: 10px;
+}
+
+.reviews {
+  margin-bottom: 30px;
+  grid-area: Reviews;
+}
+
+.upgrades {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  row-gap: 20px;
+  column-gap: 10px;
+  margin-bottom: 30px;
+  grid-area: Upgrades;
+}
+
+.upgrades figure {
+  background-color: var(--filling-color);
+  display: grid;
+  grid-template-rows: 2fr .5fr;
+  text-align: center;
+}
+
+.upgrades img {
+  display: block;
+  margin: auto;
+
+}
+
+.upgrades figcaption {
+  background-color: var(--white);
+  height: auto;
+  margin-top: auto;
+}
+
+/********************* Footer *********************/
+
+footer {
+  text-align: center;
+  margin: 5px;
 }

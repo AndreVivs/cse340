@@ -1,0 +1,80 @@
+@media screen and (min-width: 980px) {
+
+    html {
+        background-image: url(/images/site/small_check.jpg);
+    }
+
+    body {
+        padding: 20px 10px 10px;
+        width: 90%;
+        margin: 10px auto;
+        background-color: var(--white);
+        border: 5px solid var(--filling-color);
+        border-radius: 5px;
+    }
+
+    #tools {
+        font-size: 1.1rem;
+    }
+
+    .siteName a {
+        font-size: 3rem;
+    }
+
+    nav ul {
+        padding: 1.5%;
+        min-height: 45px;
+    }
+
+    nav ul li {
+        cursor: pointer;
+        font-size: 1.5rem;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero picture img {
+        width: 690px;
+    }
+
+    .hero__content {
+        font-size: 2rem;
+        top: 50px;
+        left: 80px;
+        background-color: var(--transparency-color2);
+        padding: 10px;
+    }
+
+    .hero__content strong {
+        font-size: 2.3rem;
+    }
+
+    .hero__content img {
+        cursor: pointer;
+        margin-top: 20px;
+        width: 180px;
+    }
+
+    .sections {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-areas:
+            "upgrades Reviews";
+        gap: 10%;
+    }
+
+    .sections h2 {
+        font-size: 2rem;
+        margin-bottom: 40px;
+    }
+
+    .reviews ul li {
+        font-size: 1.6rem;
+    }
+
+    .upgrades figcaption {
+        font-size: 1.5rem;
+    }
+}
