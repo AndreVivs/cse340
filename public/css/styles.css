@@ -208,6 +208,6 @@ section li {
 /********************* Footer *********************/
 
 footer {
-  text-align: center;
-  margin: 5px;
+  /* text-align: center; */
+  margin: 4%;
 }

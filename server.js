@@ -13,6 +13,7 @@ const static = require("./routes/static");
 const baseController = require("./controllers/baseController");
 const inventoryRoute = require("./routes/inventoryRoute");
 const utilities = require("./utilities");
+const errorRoute = require("./routes/inventoryRoute");
 // const funFacts = [
 //   "Did you know honey never spoils? 🤯",
 //   "Octopuses have three hearts. 💙💙💙",
@@ -77,3 +78,8 @@ const host = process.env.HOST;
 app.listen(port, () => {
   console.log(`app listening on ${host}:${port}`);
 });
+
+/* ***********************
+ * Error Route
+ *************************/
+app.use("/error", errorRoute);
