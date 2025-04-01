@@ -16,6 +16,7 @@
   --white: #fff;
   --transparency-color: #ffffff73;
   --transparency-color2: #aaaaac60;
+  --shadow: #1e2a333b;
 }
 
 /********************* Header *********************/
@@ -181,6 +182,28 @@ section li {
   text-decoration: none;
 }
 
+
+/********************* Detail Vehicle *********************/
+.detail__vehicle-section {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.detail__vehicle-title-image img {
+  width: 100%;
+}
+
+.detail__vehicle .detail__vehicle-title-image {
+  margin: 5% 2%;
+}
+
+.detail__vehicle p {
+  margin: 15px 0;
+}
+
+.shadow {
+  background-color: var(--shadow);
+}
 
 /********************* Footer *********************/
 

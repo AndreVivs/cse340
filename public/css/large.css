@@ -77,4 +77,28 @@
     .upgrades figcaption {
         font-size: 1.5rem;
     }
+
+    /********************* Detail Vehicle *********************/
+    .detail__vehicle-section {
+        display: flex;
+        flex-wrap: nowrap;
+    }
+
+    .detail__vehicle-title-image {
+        width: 120%;
+    }
+
+    .detail__vehicle-title-image img {
+        width: 100%;
+    }
+
+    .detail__vehicle {
+        margin: 10% 3%;
+    }
+
+    .detail__vehicle p {
+        margin:22px;
+    }
+
+    
 }

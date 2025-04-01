@@ -33,8 +33,6 @@ Util.getNav = async function (req, res, next) {
 Util.handleErrors = (fn) => (req, res, next) =>
   Promise.resolve(fn(req, res, next)).catch(next);
 
-module.exports = Util;
-
 /* **************************************
  * Build the classification view HTML
  * ************************************ */
@@ -87,3 +85,32 @@ Util.buildClassificationGrid = async function (data) {
   }
   return grid;
 };
+
+/* **************************************
+ * Build the vehicle detail HTML
+ * ************************************ */
+Util.buildVehicleDetail = function (vehicle) {
+  return `
+    <div class="detail__vehicle-title-image">
+      <h1>${vehicle.inv_year} ${vehicle.inv_make} ${vehicle.inv_model}</h1>
+      <img src="${vehicle.inv_image}" alt="Full image of ${vehicle.inv_make} ${
+    vehicle.inv_model
+  }" />
+  </div>
+  <div class="detail__vehicle">
+      <h3>${vehicle.inv_make} ${vehicle.inv_model} Details </h3>
+      <p><strong>Price: $${new Intl.NumberFormat("en-US").format(
+        vehicle.inv_price
+      )}</strong></p>
+      <p class="shadow"><strong>Description:</strong> ${
+        vehicle.inv_description
+      }</p>
+      <p><strong>Color:</strong> ${vehicle.inv_color}</p>
+      <p class="shadow"><strong>Miles:</strong> ${new Intl.NumberFormat(
+        "en-US"
+      ).format(vehicle.inv_miles)} miles</p>
+    </div>
+  `;
+};
+
+module.exports = Util;
