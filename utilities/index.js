@@ -98,7 +98,7 @@ Util.buildVehicleDetail = function (vehicle) {
   }" />
   </div>
   <div class="detail__vehicle">
-      <h3>${vehicle.inv_make} ${vehicle.inv_model} Details </h3>
+      <h2>${vehicle.inv_make} ${vehicle.inv_model} Details </h2>
       <p><strong>Price: $${new Intl.NumberFormat("en-US").format(
         vehicle.inv_price
       )}</strong></p>
