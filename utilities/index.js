@@ -90,27 +90,33 @@ Util.buildClassificationGrid = async function (data) {
  * Build the vehicle detail HTML
  * ************************************ */
 Util.buildVehicleDetail = function (vehicle) {
-  return `
-    <div class="detail__vehicle-title-image">
-      <h1>${vehicle.inv_year} ${vehicle.inv_make} ${vehicle.inv_model}</h1>
-      <img src="${vehicle.inv_image}" alt="Full image of ${vehicle.inv_make} ${
-    vehicle.inv_model
-  }" />
-  </div>
-  <div class="detail__vehicle">
-      <h2>${vehicle.inv_make} ${vehicle.inv_model} Details </h2>
-      <p><strong>Price: $${new Intl.NumberFormat("en-US").format(
-        vehicle.inv_price
-      )}</strong></p>
-      <p class="shadow"><strong>Description:</strong> ${
-        vehicle.inv_description
-      }</p>
-      <p><strong>Color:</strong> ${vehicle.inv_color}</p>
-      <p class="shadow"><strong>Miles:</strong> ${new Intl.NumberFormat(
-        "en-US"
-      ).format(vehicle.inv_miles)} miles</p>
-    </div>
-  `;
+  let detail = "";
+  if (vehicle) {
+    detail += '<div class="detail__vehicle-title-image">';
+    detail += `<h1>${vehicle.inv_year} ${vehicle.inv_make} ${vehicle.inv_model}</h1>`;
+    detail += `<img src="${vehicle.inv_image}" alt="Full image of ${vehicle.inv_make} ${vehicle.inv_model}" />`;
+    detail += "</div>";
+
+    detail += '<div class="detail__vehicle">';
+    detail += `<h2>${vehicle.inv_make} ${vehicle.inv_model} Details</h2>`;
+    detail +=
+      "<p><strong>Price: $" +
+      new Intl.NumberFormat("en-US").format(vehicle.inv_price) +
+      "</strong></p>";
+    detail +=
+      '<p class="shadow"><strong>Description:</strong> ' +
+      vehicle.inv_description +
+      "</p>";
+    detail += "<p><strong>Color:</strong> " + vehicle.inv_color + "</p>";
+    detail +=
+      '<p class="shadow"><strong>Miles:</strong> ' +
+      new Intl.NumberFormat("en-US").format(vehicle.inv_miles) +
+      " miles</p>";
+    detail += "</div>";
+  } else {
+    detail += '<p class="notice">Sorry, vehicle details are unavailable.</p>';
+  }
+  return detail;
 };
 
 module.exports = Util;
