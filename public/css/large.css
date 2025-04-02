@@ -100,5 +100,55 @@
         margin:22px;
     }
 
+    /********************* Form *********************/
+    .form__conuntour {
+        width: 500px;
+        background-color: #add8e6;
+        padding: 25px;
+    }
+
+    form {
+        width: 100%;
+        background-color: #32475c;
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        border-color: #e7f3fe;
+    }
+
+    form label {
+        color: #e6f4ea;
+        margin-left: 8%;
+        font-weight: 600;
+    }
+
+    input,
+    button {
+        width: 90%;
+        margin: 10px auto;
+        padding: 10px;
+        border-radius: 10px;
+    }
+
+    button {
+        width: 40%;
+        background-color: var(--white);
+        font-size: medium;
+        color: #32475c;
+        border: none;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #32475c;
+        color: var(--white);
+    }
+
+    .flash-messages {
+        background-color: #ffcccb;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
     
 }

@@ -248,6 +248,55 @@ section li {
   border: 1px solid #721c24;
 }
 
+/********************* Form *********************/
+.form__conuntour {
+  margin: 0 auto;
+  width: 95%;
+  background-color: #add8e6;
+  padding: 15px;
+}
+form {
+  width: 100%;
+  background-color: #32475c;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 10px;
+}
+
+form label {
+  color: #e6f4ea;
+  margin-left: 6%;
+  font-weight: 600;
+}
+
+input,
+button {
+  width: 95%;
+  margin: 10px auto;
+  padding: 9px;
+  border-radius: 10px;
+}
+
+button {
+  width: 40%;
+  background-color: var(--white);
+  font-size: medium;
+  color: #32475c;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #32475c;
+  color: var(--white);
+}
+
+.flash-messages {
+  background-color: #ffcccb;
+  padding: 10px;
+  border-radius: 5px;
+}
+
 /********************* Footer *********************/
 
 footer {

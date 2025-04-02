@@ -16,6 +16,8 @@ const baseController = require("./controllers/baseController");
 const inventoryRoute = require("./routes/inventoryRoute");
 const utilities = require("./utilities");
 const errorRoute = require("./routes/inventoryRoute");
+const accountRoute = require("./routes/accountRoute");
+
 // const funFacts = [
 //   "Did you know honey never spoils? 🤯",
 //   "Octopuses have three hearts. 💙💙💙",
@@ -62,6 +64,8 @@ app.use(static);
 app.get("/", utilities.handleErrors(baseController.buildHome));
 // Inventory routes
 app.use("/inv", inventoryRoute);
+// Account routes
+app.use("/account", accountRoute);
 //Error Route
 app.use("/error", errorRoute);
 // File Not Found Route - must be last route --before error handling  -- in list

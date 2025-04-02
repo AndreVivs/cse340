@@ -1,0 +1,39 @@
+<h1><%= title %></h1>
+
+<% if (notice && notice.length > 0) { %>
+<div class="info-message">
+  <p><%= notice[0] %></p>
+</div>
+<% } %> <% if (errors) { %>
+<ul class="notice">
+  <% errors.array().forEach(error => { %>
+  <li><%= error.msg %></li>
+  <% }) %>
+</ul>
+<% } %>
+
+<div class="form__conuntour">
+  <form action="/account/login" method="POST" class="login-form">
+    <label for="account_email">Email:</label>
+    <input
+      type="email"
+      name="account_email"
+      id="account_email"
+      required
+      value=""
+    />
+    <label for="account_password">Password:</label>
+    <input
+      type="password"
+      name="account_password"
+      id="account_password"
+      required
+    />
+
+    <button type="submit">LOGIN</button>
+
+    <p>
+      <a class="signup-link" href="/account/register">No account? Sign Up</a>
+    </p>
+  </form>
+</div>
