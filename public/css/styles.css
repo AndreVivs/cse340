@@ -297,6 +297,18 @@ button:hover {
   border-radius: 5px;
 }
 
+
+input:required:invalid,
+input:focus:invalid {
+  color: var(--filling-color);
+  /* insert your own styles for invalid form input */
+}
+
+input:required:valid {
+  color: var(--nav-color);
+  /* insert your own styles for valid form input */
+}
+
 /********************* Footer *********************/
 
 footer {
