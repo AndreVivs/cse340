@@ -14,6 +14,12 @@ router.get(
   utilities.handleErrors(accountController.buildRegister)
 );
 
+// Route to handle Registration post request
+router.post(
+  "/register",
+  utilities.handleErrors(accountController.registerAccount)
+);
+
 // Route to intentionally trigger a 500 error
 router.get("/trigger500", errorController.triggerError);
 
