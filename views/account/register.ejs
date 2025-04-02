@@ -1,10 +1,6 @@
 <h1><%= title %></h1>
 
-<% if (notice && notice.length > 0) { %>
-<div class="info-message">
-  <p><%= notice[0] %></p>
-</div>
-<% } %> <% if (errors) { %>
+<% if (errors) { %>
 <ul class="notice">
   <% errors.array().forEach(error => { %>
   <li><%= error.msg %></li>
@@ -13,15 +9,34 @@
 <% } %>
 
 <div class="form__conuntour">
-  <form action="/account/login" method="POST" class="login-form">
+  <form action="/account/register" method="POST" class="login-form">
+    <label for="account_firstname">First Name:</label>
+    <input
+      type="text"
+      name="account_firstname"
+      id="account_firstname"
+      required
+      value="<%= locals.account_firstname %>"
+    />
+
+    <label for="account_lastname">Last Name:</label>
+    <input
+      type="text"
+      name="account_lastname"
+      id="account_lastname"
+      required
+      value="<%= locals.account_lastname %>"
+    />
+
     <label for="account_email">Email:</label>
     <input
       type="email"
       name="account_email"
       id="account_email"
       required
-      value=""
+      value="<%= locals.account_email %>"
     />
+
     <label for="account_password">Password:</label>
     <span class="pass-rqmt">
       It needs to be at least 12 characters long and has at least 1 uppercase
@@ -34,11 +49,8 @@
       required
       pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"
     />
+    <span id="passwdBtn">Show Password</span>
 
-    <button type="submit">LOGIN</button>
-
-    <p>
-      No account ?<a class="signup-link" href="/account/register"> Sign Up</a>
-    </p>
+    <button type="submit">Register</button>
   </form>
 </div>
