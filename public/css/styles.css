@@ -255,17 +255,20 @@ section li {
   background-color: #add8e6;
   padding: 15px;
 }
-form {
+.login-form {
   width: 100%;
   background-color: #32475c;
   display: flex;
   flex-direction: column;
+}
+
+fieldset {
   padding: 20px 10px;
 }
 
-form label {
+form fieldset label {
   color: #e6f4ea;
-  margin-left: 6%;
+  margin-left: 4%;
   font-weight: 600;
 }
 

@@ -116,10 +116,8 @@
         border-color: #e7f3fe;
     }
 
-    form label {
-        color: #e6f4ea;
-        margin-left: 8%;
-        font-weight: 600;
+    form fieldset label {
+        margin-left: 2%;
     }
 
     input,

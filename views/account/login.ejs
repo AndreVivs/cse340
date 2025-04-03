@@ -4,32 +4,36 @@
 
 <div class="form__conuntour">
   <form action="/account/login" method="POST" class="login-form">
-    <label for="account_email">Email:</label>
-    <input
-      type="email"
-      name="account_email"
-      id="account_email"
-      required
-      placeholder="example@byu.edu"
-      value=""
-    />
-    <label for="account_password">Password:</label>
-    <span class="pass-rqmt">
-      It needs to be at least 12 characters long and has at least 1 uppercase
-      character, 1 number, and 1 special character
-    </span>
-    <input
-      type="password"
-      name="account_password"
-      id="account_password"
-      required
-      pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"
-    />
+    <fieldset>
+      <label for="account_email">Email:</label>
+      <input
+        type="email"
+        name="account_email"
+        id="account_email"
+        required
+        placeholder="example@byu.edu"
+        value=""
+      />
+      <label for="account_password">Password:</label>
+      <span class="pass-rqmt">
+        It needs to be at least 12 characters long and has at least 1 uppercase
+        character, 1 number, and 1 special character
+      </span>
+      <input
+        type="password"
+        name="account_password"
+        id="account_password"
+        required
+        pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"
+      />
 
-    <button type="submit">LOGIN</button>
+      <button type="submit">LOGIN</button>
 
-    <p>
-      No account ?<a class="signup-link" href="/account/register"> Sign Up</a>
-    </p>
+      <p>
+        No account ?<a class="signup-link" href="/account/registration">
+          Sign Up</a
+        >
+      </p>
+    </fieldset>
   </form>
 </div>

@@ -1,20 +1,30 @@
 <h1><%= title %></h1>
 
+<%- messages() %>
+
 <% if (errors) { %>
-<ul class="notice">
-  <% errors.array().forEach(error => { %>
-  <li><%= error.msg %></li>
-  <% }) %>
-</ul>
+  <ul class="notice">
+ <% errors.array().forEach(error => { %>
+   <li><%= error.msg %></li>
+<%  }) %>
+ </ul>
 <% } %>
 
 <div class="form__conuntour">
-  <form action="/account/register" method="POST" class="login-form">
+  <p>All fields are required.</p>
+  <form
+    id="registerForm"
+    action="/account/registration"
+    method="POST"
+    class="login-form"
+  >
+  <fieldset>
     <label for="account_firstname">First Name:</label>
     <input
       type="text"
       name="account_firstname"
-      id="account_firstname"
+      id="firstname"
+      size="10"
       required
       value="<%= locals.account_firstname %>"
     />
@@ -23,7 +33,7 @@
     <input
       type="text"
       name="account_lastname"
-      id="account_lastname"
+      id="lastname"
       required
       value="<%= locals.account_lastname %>"
     />
@@ -32,7 +42,7 @@
     <input
       type="email"
       name="account_email"
-      id="account_email"
+      id="email"
       required
       placeholder="example@byu.edu"
       value="<%= locals.account_email %>"
@@ -46,12 +56,12 @@
     <input
       type="password"
       name="account_password"
-      id="account_password"
+      id="password"
       required
       pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"
     />
     <span id="passwdBtn">Show Password</span>
-
     <button type="submit">Register</button>
   </form>
+  </fieldset>
 </div>
