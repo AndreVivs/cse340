@@ -23,6 +23,11 @@ router.post(
   utilities.handleErrors(accountController.registerAccount)
 );
 
+// Process the login attempt
+// router.post("/login", (req, res) => {
+//   res.status(200).send("login process");
+// });
+
 // Route to intentionally trigger a 500 error
 router.get("/trigger500", errorController.triggerError);
 
