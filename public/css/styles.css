@@ -131,14 +131,13 @@ section li {
 .upgrades figure {
   background-color: var(--filling-color);
   display: grid;
-  grid-template-rows: 2fr .5fr;
+  grid-template-rows: 2fr 0.5fr;
   text-align: center;
 }
 
 .upgrades img {
   display: block;
   margin: auto;
-
 }
 
 .upgrades figcaption {
@@ -182,7 +181,6 @@ section li {
   text-decoration: none;
 }
 
-
 /********************* Detail Vehicle *********************/
 .detail__vehicle-section {
   display: flex;
@@ -219,15 +217,15 @@ section li {
   list-style: none;
 }
 
-.notice li, .success li, .warning li, .error li {
-  list-style: none;
-}
+/* .notice li, .success li, .warning li, .error li {
+  list-style: auto;
+} */
 
 /* Specific message types */
 .notice {
-  background-color: #e7f3fe;
-  color: #3178c6;
-  border: 1px solid #3178c6;
+  width: 320px;
+  color: #121482;
+  margin: 10px auto;
 }
 
 .success {
@@ -272,6 +270,16 @@ form fieldset label {
   font-weight: 600;
 }
 
+form fieldset p {
+  color: #e6f4ea;
+  margin: 5px 35%;
+}
+
+form fieldset span {
+  color: #e6f4ea;
+  font-size: medium;
+}
+
 input,
 button {
   width: 95%;
@@ -287,6 +295,7 @@ button {
   color: #32475c;
   border: none;
   cursor: pointer;
+  margin: 10px 30%;
 }
 
 button:hover {
@@ -299,7 +308,6 @@ button:hover {
   padding: 10px;
   border-radius: 5px;
 }
-
 
 input:required:invalid,
 input:focus:invalid {

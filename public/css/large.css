@@ -1,152 +1,152 @@
 @media screen and (min-width: 980px) {
+  html {
+    background-image: url(/images/site/small_check.jpg);
+  }
 
-    html {
-        background-image: url(/images/site/small_check.jpg);
-    }
+  body {
+    padding: 20px 10px 10px;
+    width: 90%;
+    margin: 10px auto;
+    background-color: var(--white);
+    border: 5px solid var(--filling-color);
+    border-radius: 5px;
+  }
 
-    body {
-        padding: 20px 10px 10px;
-        width: 90%;
-        margin: 10px auto;
-        background-color: var(--white);
-        border: 5px solid var(--filling-color);
-        border-radius: 5px;
-    }
+  #tools {
+    font-size: 1.1rem;
+  }
 
-    #tools {
-        font-size: 1.1rem;
-    }
+  .siteName a {
+    font-size: 3rem;
+  }
 
-    .siteName a {
-        font-size: 3rem;
-    }
+  nav ul {
+    padding: 1.5%;
+    min-height: 45px;
+  }
 
-    nav ul {
-        padding: 1.5%;
-        min-height: 45px;
-    }
+  nav ul li {
+    cursor: pointer;
+    font-size: 1.5rem;
+  }
 
-    nav ul li {
-        cursor: pointer;
-        font-size: 1.5rem;
-    }
+  h1 {
+    font-size: 2.5rem;
+  }
 
-    h1 {
-        font-size: 2.5rem;
-    }
+  .hero picture img {
+    width: 690px;
+  }
 
-    .hero picture img {
-        width: 690px;
-    }
+  .hero__content {
+    font-size: 2rem;
+    top: 50px;
+    left: 80px;
+    background-color: var(--transparency-color2);
+    padding: 10px;
+  }
 
-    .hero__content {
-        font-size: 2rem;
-        top: 50px;
-        left: 80px;
-        background-color: var(--transparency-color2);
-        padding: 10px;
-    }
+  .hero__content strong {
+    font-size: 2.3rem;
+  }
 
-    .hero__content strong {
-        font-size: 2.3rem;
-    }
+  .hero__content img {
+    cursor: pointer;
+    margin-top: 20px;
+    width: 180px;
+  }
 
-    .hero__content img {
-        cursor: pointer;
-        margin-top: 20px;
-        width: 180px;
-    }
+  .sections {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas: "upgrades Reviews";
+    gap: 10%;
+  }
 
-    .sections {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        grid-template-areas:
-            "upgrades Reviews";
-        gap: 10%;
-    }
+  .sections h2 {
+    font-size: 2rem;
+    margin-bottom: 40px;
+  }
 
-    .sections h2 {
-        font-size: 2rem;
-        margin-bottom: 40px;
-    }
+  .reviews ul li {
+    font-size: 1.6rem;
+  }
 
-    .reviews ul li {
-        font-size: 1.6rem;
-    }
+  .upgrades figcaption {
+    font-size: 1.5rem;
+  }
 
-    .upgrades figcaption {
-        font-size: 1.5rem;
-    }
+  /********************* Detail Vehicle *********************/
+  .detail__vehicle-section {
+    display: flex;
+    flex-wrap: nowrap;
+  }
 
-    /********************* Detail Vehicle *********************/
-    .detail__vehicle-section {
-        display: flex;
-        flex-wrap: nowrap;
-    }
+  .detail__vehicle-title-image {
+    width: 120%;
+  }
 
-    .detail__vehicle-title-image {
-        width: 120%;
-    }
+  .detail__vehicle-title-image img {
+    width: 100%;
+  }
 
-    .detail__vehicle-title-image img {
-        width: 100%;
-    }
+  .detail__vehicle {
+    margin: 10% 3%;
+  }
 
-    .detail__vehicle {
-        margin: 10% 3%;
-    }
+  .detail__vehicle p {
+    margin: 22px;
+  }
 
-    .detail__vehicle p {
-        margin:22px;
-    }
+  /********************* Form *********************/
+  .form__conuntour {
+    width: 500px;
+    background-color: #add8e6;
+    padding: 25px;
+  }
 
-    /********************* Form *********************/
-    .form__conuntour {
-        width: 500px;
-        background-color: #add8e6;
-        padding: 25px;
-    }
+  form {
+    width: 100%;
+    background-color: #32475c;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border-color: #e7f3fe;
+  }
 
-    form {
-        width: 100%;
-        background-color: #32475c;
-        display: flex;
-        flex-direction: column;
-        padding: 20px;
-        border-color: #e7f3fe;
-    }
+  form fieldset label {
+    margin-left: 2%;
+  }
 
-    form fieldset label {
-        margin-left: 2%;
-    }
+  input,
+  button {
+    width: 90%;
+    margin: 10px auto;
+    padding: 10px;
+    border-radius: 10px;
+  }
 
-    input,
-    button {
-        width: 90%;
-        margin: 10px auto;
-        padding: 10px;
-        border-radius: 10px;
-    }
+  button {
+    width: 40%;
+    background-color: var(--white);
+    font-size: medium;
+    color: #32475c;
+    border: none;
+    cursor: pointer;
+  }
 
-    button {
-        width: 40%;
-        background-color: var(--white);
-        font-size: medium;
-        color: #32475c;
-        border: none;
-        cursor: pointer;
-    }
+  button:hover {
+    background-color: #32475c;
+    color: var(--white);
+  }
 
-    button:hover {
-        background-color: #32475c;
-        color: var(--white);
-    }
+  .flash-messages {
+    background-color: #ffcccb;
+    padding: 10px;
+    border-radius: 5px;
+  }
 
-    .flash-messages {
-        background-color: #ffcccb;
-        padding: 10px;
-        border-radius: 5px;
-    }
-
-    
+  .notice {
+    margin: 10px 30%;
+  }
 }
