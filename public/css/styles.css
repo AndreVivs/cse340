@@ -205,22 +205,6 @@ section li {
 
 /********************* Sessions & Messages *********************/
 
-/* General message styling */
-#messages {
-  padding: 12px;
-  margin: 10px;
-  border-radius: 5px;
-  font-size: 16px;
-  font-weight: bold;
-  text-align: center;
-  text-decoration: none;
-  list-style: none;
-}
-
-/* .notice li, .success li, .warning li, .error li {
-  list-style: auto;
-} */
-
 /* Specific message types */
 .notice {
   width: 320px;
@@ -229,9 +213,9 @@ section li {
 }
 
 .success {
-  background-color: #e6f4ea;
+  width: 320px;
   color: #2e7d32;
-  border: 1px solid #2e7d32;
+  margin: 10px auto;
 }
 
 .warning {
