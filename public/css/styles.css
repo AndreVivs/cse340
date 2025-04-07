@@ -7,6 +7,11 @@
   box-sizing: border-box;
 }
 
+html,
+body {
+  overflow-x: hidden;
+}
+
 /********************* variables *********************/
 :root {
   --font-title: "Montserrat", "Playfair Display", sans-serif;
@@ -237,7 +242,7 @@ section li {
   background-color: #add8e6;
   padding: 15px;
 }
-.login-form {
+.background-form {
   width: 100%;
   background-color: #32475c;
   display: flex;
@@ -267,6 +272,20 @@ form fieldset span {
 input,
 button {
   width: 95%;
+  margin: 10px auto;
+  padding: 9px;
+  border-radius: 10px;
+}
+
+select {
+  width: 90%;
+  margin: 10px auto;
+  padding: 9px;
+  border-radius: 10px;
+}
+
+textarea {
+  width: 90%;
   margin: 10px auto;
   padding: 9px;
   border-radius: 10px;

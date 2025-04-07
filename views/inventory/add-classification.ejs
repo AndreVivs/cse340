@@ -1,0 +1,31 @@
+<h1>Add New Classification</h1>
+
+<% if (notice && notice.length > 0) { %>
+<div class="info-message">
+  <p><%= notice[0] %></p>
+</div>
+<% } %> <% if (errors) { %>
+<ul class="notice">
+  <% errors.array().forEach(error => { %>
+  <li><%= error.msg %></li>
+  <% }) %>
+</ul>
+<% } %>
+<div class="form__conuntour">
+  <form action="/inv/add-classification" method="POST" class="background-form">
+    <fieldset>
+      <label for="classification_name">Classification Name</label>
+      <input
+        type="text"
+        id="classification_name"
+        name="classification_name"
+        required
+        pattern="^[a-zA-Z0-9]+$"
+        title="Classification name must not contain spaces or special characters."
+        value="<%= typeof classification_name != 'undefined' ? classification_name : '' %>"
+      />
+
+      <button type="submit">Add Classification</button>
+    </fieldset>
+  </form>
+</div>

@@ -1,4 +1,4 @@
-@media screen and (min-width: 980px) {
+@media screen and (min-width: 760px) {
   html {
     background-image: url(/images/site/small_check.jpg);
   }
@@ -110,7 +110,7 @@
     background-color: #32475c;
     display: flex;
     flex-direction: column;
-    padding: 20px;
+    padding: 2px;
     border-color: #e7f3fe;
   }
 

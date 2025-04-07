@@ -1,0 +1,12 @@
+<h1><%= title %></h1>
+
+<% if (notice && notice.length > 0) { %>
+<div class="info-message">
+  <p><%= notice[0] %></p>
+</div>
+<% } %>
+
+<ul class="management-links">
+  <li><a href="/inv/add-classification">Add New Classification</a></li>
+  <li><a href="/inv/add-inventory">Add New Inventory</a></li>
+</ul>
