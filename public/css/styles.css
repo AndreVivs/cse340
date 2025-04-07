@@ -151,6 +151,10 @@ section li {
   margin-top: auto;
 }
 
+.management-links {
+  padding-left: 20px;
+}
+
 /********************* Custom Vehicles *********************/
 
 #inv-display {
