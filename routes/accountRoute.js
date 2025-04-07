@@ -23,6 +23,12 @@ router.post(
   utilities.handleErrors(accountController.registerAccount)
 );
 
+// Página principal del inventario
+router.get(
+  "/",
+  utilities.handleErrors(accountController.buildAccountManagement)
+);
+
 // Process the login attempt
 router.post(
   "/login",
