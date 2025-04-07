@@ -6,6 +6,13 @@ const accountController = require("../controllers/accountController");
 const utilities = require("../utilities/");
 const errorController = require("../controllers/errorController");
 
+// Página principal de la cuenta (Account Management)
+router.get(
+  "/",
+  utilities.checkLogin,
+  utilities.handleErrors(accountController.buildAccountManagement)
+);
+
 // Route to handle "My Account" page request
 router.get("/login", utilities.handleErrors(accountController.buildLogin));
 
@@ -21,12 +28,6 @@ router.post(
   regValidate.registationRules(),
   regValidate.checkRegData,
   utilities.handleErrors(accountController.registerAccount)
-);
-
-// Página principal del inventario
-router.get(
-  "/",
-  utilities.handleErrors(accountController.buildAccountManagement)
 );
 
 // Process the login attempt
