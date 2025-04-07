@@ -1,6 +1,16 @@
 <h1><%= title %></h1>
 
-<%- messages() %>
+<% if (notice && notice.length > 0) { %>
+<div class="info-message">
+  <p><%= notice[0] %></p>
+</div>
+<% } %> <% if (errors) { %>
+<ul class="notice">
+  <% errors.array().forEach(error => { %>
+  <li><%= error.msg %></li>
+  <% }) %>
+</ul>
+<% } %>
 
 <div class="form__conuntour">
   <form action="/account/login" method="POST" class="login-form">

@@ -24,9 +24,12 @@ router.post(
 );
 
 // Process the login attempt
-// router.post("/login", (req, res) => {
-//   res.status(200).send("login process");
-// });
+router.post(
+  "/login",
+  regValidate.loginRules(),
+  regValidate.checkLoginData,
+  utilities.handleErrors(accountController.loginAccount)
+);
 
 // Route to intentionally trigger a 500 error
 router.get("/trigger500", errorController.triggerError);
