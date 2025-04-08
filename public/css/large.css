@@ -154,6 +154,19 @@
   .notice {
     margin: 10px 30%;
   }
+  /********************* Form *********************/
+  select {
+    width: 65%;
+  }
+
+  /********************* Inventary Table *********************/
+  .managent-text {
+    margin: 20px 10px;
+  }
+  #inventoryDisplay {
+    width: 65%;
+    margin: 0;
+  }
 
   /********************* Menu *********************/
   /* #menu-toggle {

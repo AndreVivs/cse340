@@ -9,6 +9,12 @@ const invValidation = require("../utilities/inventory-validation");
 // Página principal del inventario
 router.get("/", utilities.handleErrors(invController.buildManagementView));
 
+// JSON route to get inventory by classification_id
+router.get(
+  "/getInventory/:classification_id",
+  utilities.handleErrors(invController.getInventoryJSON)
+);
+
 // Mostrar el formulario
 router.get(
   "/add-classification",
