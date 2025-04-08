@@ -52,6 +52,12 @@ router.get(
   utilities.handleErrors(invController.buildInventoryDetail)
 );
 
+// Route to build edit inventory view
+router.get(
+  "/edit/:inv_id",
+  utilities.handleErrors(invController.editInventoryView)
+);
+
 // Route to intentionally trigger a 500 error
 router.get("/trigger500", errorController.triggerError);
 
