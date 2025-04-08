@@ -306,4 +306,53 @@ invCont.updateInventory = async function (req, res, next) {
   }
 };
 
+/* ***************************
+ *  Build delete view
+ * ************************** */
+invCont.deleteConfirmationView = async function (req, res, next) {
+  try {
+    const inv_id = parseInt(req.params.inv_id);
+    const itemData = await invModel.getInventoryById(inv_id);
+
+    if (!itemData) {
+      throw { status: 404, message: "Item not found." };
+    }
+
+    let nav = await utilities.getNav();
+    res.render("./inventory/delete-confirm", {
+      title: "Confirm Deletion",
+      nav,
+      errors: null,
+      notice: req.flash("notice"),
+      inv_id: itemData.inv_id,
+      inv_make: itemData.inv_make,
+      inv_model: itemData.inv_model,
+      inv_year: itemData.inv_year,
+      inv_price: itemData.inv_price,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/* ***************************
+ *  Handle Delete Process
+ * ************************** */
+invCont.deleteInventory = async function (req, res, next) {
+  try {
+    const inv_id = parseInt(req.body.inv_id);
+    const result = await invModel.deleteInventoryItem(inv_id);
+
+    if (result) {
+      req.flash("notice", "Item deleted successfully.");
+      res.redirect("/inv/"); // Redirect to the inventory management page
+    } else {
+      req.flash("notice", "Delete failed. Try again.");
+      res.redirect(`/inv/delete/${inv_id}`); // Re-show the confirmation page
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = invCont;

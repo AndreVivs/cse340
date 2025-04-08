@@ -1,0 +1,68 @@
+<h1><%= title %></h1>
+
+<% if (notice && notice.length > 0) { %>
+<div class="info-message">
+  <ul>
+    <li><%= notice[0] %></li>
+  </ul>
+</div>
+<% } %> <% if (errors) { %>
+<ul class="notice">
+  <% errors.array().forEach(error => { %>
+  <li><%= error.msg %></li>
+  <% }) %>
+</ul>
+<% } %>
+
+<div class="form__conuntour">
+  <form
+    action="/inv/delete/<%= inv_id %>"
+    method="POST"
+    class="background-form"
+  >
+    <fieldset>
+      <p>Confirm Deletion - The delete is permanent.</p>
+
+      <label for="inv_make">Make:</label>
+      <input
+        type="text"
+        id="inv_make"
+        name="inv_make"
+        value="<%= inv_make %>"
+        readonly
+      />
+
+      <label for="inv_model">Model:</label>
+      <input
+        type="text"
+        id="inv_model"
+        name="inv_model"
+        value="<%= inv_model %>"
+        readonly
+      />
+
+      <label for="inv_year">Year:</label>
+      <input
+        type="text"
+        id="inv_year"
+        name="inv_year"
+        value="<%= inv_year %>"
+        readonly
+      />
+
+      <label for="inv_price">Price:</label>
+      <input
+        type="text"
+        id="inv_price"
+        name="inv_price"
+        value="<%= inv_price %>"
+        readonly
+      />
+
+      <input type="hidden" name="inv_id" value="<%= inv_id %>" />
+      <input type="submit" value="Delete" />
+    </fieldset>
+  </form>
+</div>
+
+<script src="/js/inv-update.js"></script>
