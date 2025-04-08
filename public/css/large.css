@@ -152,7 +152,12 @@
   }
 
   .notice {
-    margin: 10px 30%;
+    margin: 10px;
+  }
+
+  .info-message {
+    margin: 10px 0;
+    padding-left: 20px;
   }
   /********************* Form *********************/
   select {

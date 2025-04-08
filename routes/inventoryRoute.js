@@ -58,6 +58,14 @@ router.get(
   utilities.handleErrors(invController.editInventoryView)
 );
 
+// Route to build edit classification view
+router.post(
+  "/update",
+  invValidation.inventoryRules(),
+  invValidation.checkUpdateData,
+  utilities.handleErrors(invController.updateInventory)
+);
+
 // Route to intentionally trigger a 500 error
 router.get("/trigger500", errorController.triggerError);
 

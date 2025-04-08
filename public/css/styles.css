@@ -221,6 +221,10 @@ section li {
   margin: 10px auto;
 }
 
+.info-message {
+  margin: 10px auto;
+}
+
 .success {
   width: 320px;
   color: #2e7d32;

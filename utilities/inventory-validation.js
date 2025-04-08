@@ -30,7 +30,7 @@ validate.checkClassificationData = async (req, res, next) => {
       title: "Add New Classification",
       nav,
       errors,
-      notice: null,
+      notice: req.flash("notice"),
       classification_name,
     });
     return;
@@ -79,6 +79,27 @@ validate.checkInventoryData = async (req, res, next) => {
       classificationList,
       errors,
       notice: req.flash("notice"),
+      ...req.body,
+    });
+    return;
+  }
+  next();
+};
+
+validate.checkUpdateData = async (req, res, next) => {
+  const errors = validationResult(req);
+  const classificationList = await utilities.buildClassificationList(
+    req.body.classification_id
+  );
+  if (!errors.isEmpty()) {
+    let nav = await utilities.getNav();
+    res.render("./inventory/edit-inventory", {
+      title: "Edit Inventory",
+      nav,
+      classificationList,
+      errors,
+      notice: req.flash("notice"),
+      inv_id: req.params.inv_id,
       ...req.body,
     });
     return;
