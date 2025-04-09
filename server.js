@@ -20,14 +20,6 @@ const accountRoute = require("./routes/accountRoute");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 
-// const funFacts = [
-//   "Did you know honey never spoils? 🤯",
-//   "Octopuses have three hearts. 💙💙💙",
-//   "Bananas are berries, but strawberries aren't! 🍌🍓",
-//   "A day on Venus is longer than a year on Venus. 🪐",
-//   "You can’t hum while holding your nose! 🤔",
-// ];
-
 /* ***********************
  * View Engine and Templates
  *************************/

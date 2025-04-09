@@ -73,6 +73,7 @@ validate.checkRegData = async (req, res, next) => {
       account_lastname,
       account_email,
       notice: null,
+      loggedin: req.session.loggedin,
     });
     return;
   }
@@ -120,7 +121,7 @@ validate.loginRules = () => {
  * Check data and return errors or continue to Login
  * ***************************** */
 validate.checkLoginData = async (req, res, next) => {
-  const { account_email } = req.body;
+  const account_email = req.body;
   let errors = [];
   errors = validationResult(req);
   console.log("The errors:", errors.array());
@@ -135,6 +136,99 @@ validate.checkLoginData = async (req, res, next) => {
     });
     return;
   }
+  next();
+};
+
+/*  **********************************
+ *  Validation Update Account Data Rules
+ * ********************************* */
+validate.updateAccountRules = () => {
+  return [
+    body("account_firstname")
+      .trim()
+      .notEmpty()
+      .withMessage("Please provide a first name."),
+    body("account_lastname")
+      .trim()
+      .notEmpty()
+      .withMessage("Please provide a last name."),
+    body("account_email")
+      .trim()
+      .isEmail()
+      .withMessage("A valid email is required."),
+  ];
+};
+
+/*  **********************************
+ *  Check Update Account Data Rules
+ * ********************************* */
+validate.checkUpdateAccountData = async (req, res, next) => {
+  const { account_id, account_firstname, account_lastname, account_email } =
+    req.body;
+  let errors = [];
+  errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    let nav = await utilities.getNav();
+    res.render("account/update", {
+      title: "Update Account Information",
+      nav,
+      errors,
+      notice: req.flash("notice"),
+      account_id,
+      account_firstname,
+      account_lastname,
+      account_email,
+      notice: null,
+      loggedin: req.session.loggedin,
+    });
+    return;
+  }
+  next();
+};
+
+/*  **********************************
+ *  Validate Password Change Rules
+ * ********************************* */
+validate.passwordChangeRules = () => {
+  return [
+    body("account_password")
+      .trim()
+      .notEmpty()
+      .isStrongPassword({
+        minLength: 12,
+        minLowercase: 1,
+        minUppercase: 1,
+        minNumbers: 1,
+        minSymbols: 1,
+      })
+      .withMessage(
+        "Password must be at least 12 characters and include 1 uppercase, 1 number, and 1 special character."
+      ),
+  ];
+};
+
+/*  **********************************
+ *  Check Password Change Rules
+ * ********************************* */
+validate.checkPasswordData = async (req, res, next) => {
+  const { account_id, account_password } = req.body;
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    const nav = await utilities.getNav();
+    const accountData = await accountModel.getAccountById(account_id);
+
+    res.render("account/update", {
+      title: "Update Account Information",
+      nav,
+      accountData,
+      errors,
+      notice: req.flash("notice"),
+      loggedin: req.session.loggedin,
+    });
+    return;
+  }
+
   next();
 };
 

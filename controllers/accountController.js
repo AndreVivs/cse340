@@ -14,6 +14,8 @@ async function buildLogin(req, res, next) {
     nav,
     notice: req.flash("notice"),
     errors: null,
+    loggedin: req.session.loggedin,
+    accountData: req.session.accountData,
   });
 }
 
@@ -27,6 +29,7 @@ async function buildRegister(req, res, next) {
     nav,
     notice: req.flash("notice"),
     errors: null,
+    loggedin: req.session.loggedin,
   });
 }
 
@@ -57,6 +60,7 @@ async function registerAccount(req, res) {
       nav,
       notice: req.flash("notice"),
       errors: null,
+      loggedin: req.session.loggedin,
     });
   }
 
@@ -77,6 +81,7 @@ async function registerAccount(req, res) {
       nav,
       notice: req.flash("notice"),
       errors: null,
+      loggedin: req.session.loggedin,
     });
   } else {
     req.flash("notice", "Sorry, the registration failed.");
@@ -85,6 +90,7 @@ async function registerAccount(req, res) {
       nav,
       notice: req.flash("notice"),
       errors: null,
+      loggedin: req.session.loggedin,
     });
   }
 }
@@ -103,6 +109,7 @@ async function loginAccount(req, res) {
       nav,
       errors: null,
       account_email,
+      loggedin: req.session.loggedin,
     });
     return;
   }
@@ -134,6 +141,7 @@ async function loginAccount(req, res) {
         nav,
         errors: null,
         account_email,
+        loggedin: req.session.loggedin,
       });
     }
   } catch (error) {
@@ -146,8 +154,12 @@ async function loginAccount(req, res) {
  * *************************************** */
 async function buildAccountManagement(req, res, next) {
   let nav = await utilities.getNav();
-  const account_type = res.locals.accountData.account_type;
-  const accountMenu = utilities.buildAccountMenu(account_type);
+  const accountData = res.locals.accountData;
+  const accountMenu = utilities.buildAccountMenu(
+    accountData.account_type,
+    accountData.account_id,
+    accountData.account_firstname
+  );
 
   res.render("account/management", {
     title: "Account Management",
@@ -156,17 +168,103 @@ async function buildAccountManagement(req, res, next) {
     notice: req.flash("notice"),
     errors: null,
     message: "You're logged in",
-    decodedToken: res.locals.accountData,
+    loggedin: req.session.loggedin,
+  });
+}
+
+async function buildUpdateForm(req, res) {
+  const accountId = req.params.accountId;
+  const nav = await utilities.getNav();
+  const accountData = await accountModel.getAccountById(accountId);
+
+  if (!accountData) {
+    req.flash("notice", "Account not found.");
+    return res.redirect("/account");
+  }
+
+  res.render("account/update", {
+    title: "Update Account Information",
+    nav,
+    accountData,
+    errors: null,
+    notice: req.flash("notice"),
+    // loggedin: req.session.loggedin,
   });
 }
 
 /* ****************************************
- *  Deliver account management view
+ *  Update account Information
+ * *************************************** */
+async function updateAccountInfo(req, res) {
+  try {
+    const { account_id, account_firstname, account_lastname, account_email } =
+      req.body;
+
+    const updateResult = await accountModel.updateAccount(
+      account_id,
+      account_firstname,
+      account_lastname,
+      account_email
+    );
+
+    if (updateResult) {
+      req.flash("notice", "Account information updated successfully.");
+      res.redirect("/account/");
+    } else {
+      // En caso de error, recuperamos los datos originales para mostrar en el formulario
+      const nav = await utilities.getNav();
+      const accountData = {
+        account_id,
+        account_firstname,
+        account_lastname,
+        account_email,
+      };
+      req.flash("notice", "Update failed. Please try again.");
+      res.render("account/update", {
+        title: "Update Account Information",
+        nav,
+        accountData,
+        errors: null,
+        notice: req.flash("notice"),
+        loggedin: req.session.loggedin,
+      });
+    }
+  } catch (error) {
+    console.error("Error updating account info:", error);
+    req.flash("notice", "An unexpected error occurred.");
+    res.redirect(`/account/update/${req.body.account_id}`);
+  }
+}
+
+/* ****************************************
+ *  Update account password
+ * *************************************** */
+async function updateAccountPassword(req, res) {
+  const { account_id, account_password } = req.body;
+  const hashedPassword = await bcrypt.hash(account_password, 10);
+  const updateResult = await accountModel.updatePassword(
+    account_id,
+    hashedPassword
+  );
+
+  if (updateResult) {
+    req.flash("notice", "Password updated successfully.");
+    res.redirect("/account/");
+  } else {
+    req.flash("notice", "Password update failed. Try again.");
+    res.redirect(`/account/update/${account_id}`);
+  }
+}
+
+/* ****************************************
+ *  Logout account return Home page
  * *************************************** */
 async function logoutAccount(req, res, next) {
+  const accountData = res.locals.accountData;
+  const loggedin = req.session.loggedin;
   res.clearCookie("jwt");
   req.flash("notice", "You have been logged out.");
-  res.redirect("/account/login");
+  res.redirect("/", accountData, loggedin);
 }
 
 module.exports = {
@@ -176,4 +274,7 @@ module.exports = {
   loginAccount,
   buildAccountManagement,
   logoutAccount,
+  buildUpdateForm,
+  updateAccountInfo,
+  updateAccountPassword,
 };

@@ -27,20 +27,33 @@ Util.getNav = async function (req, res, next) {
   return list;
 };
 
-/* ****************************************
- * Building Account Menu According to the type of account
- **************************************** */
-Util.buildAccountMenu = (account_type) => {
+Util.buildAccountMenu = (account_type, account_id, account_firstname) => {
+  let greeting = "";
+  let extraContent = "";
+
+  if (account_type === "Client") {
+    greeting = `<h2>Welcome ${account_firstname}</h2>`;
+    // extraContent = `<p><a href="/account/update/${account_id}">Update account information</a></p>`;
+  } else if (account_type === "Employee" || account_type === "Admin") {
+    greeting = `<h2>Welcome Happy, ${account_firstname}</h2>`;
+    extraContent = `
+      <h3>Inventory Management</h3>
+      <p><a href="/inv">Access Inventory Management</a></p>
+    `;
+  }
+
   let menuItems = [
-    `<li><a href="/account/update">Update account</a></li>`,
+    `<li><a href="/account/update/${account_id}">Update account</a></li>`,
     `<li><a href="/account/logout">Logout</a></li>`,
   ];
 
-  if (account_type === "Employee" || account_type === "Admin") {
-    menuItems.unshift(`<li><a href="/inv">Manage Inventory</a></li>`);
-  }
+  // if (account_type === "Employee" || account_type === "Admin") {
+  //   menuItems.unshift(`<li><a href="/inv">Manage Inventory</a></li>`);
+  // }
 
   return `
+    ${greeting}
+    ${extraContent}
     <ul>
       ${menuItems.join("\n")}
     </ul>
@@ -173,18 +186,21 @@ Util.checkJWTToken = (req, res, next) => {
     jwt.verify(
       token,
       process.env.ACCESS_TOKEN_SECRET,
-      function (err, accountData) {
+      function (err, decoded, accountData) {
         if (err) {
           req.flash("Please log in");
           res.clearCookie("jwt");
+          res.locals.loggedin = 0;
           return res.redirect("/account/login");
         }
         res.locals.accountData = accountData;
         res.locals.loggedin = 1;
+        res.locals.accountData = decoded;
         next();
       }
     );
   } else {
+    res.locals.loggedin = 0;
     next();
   }
 };

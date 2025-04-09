@@ -245,7 +245,7 @@ section li {
 
 /********************* Form *********************/
 .form__conuntour {
-  margin: 0 auto;
+  margin: 20px auto;
   width: 95%;
   background-color: #add8e6;
   padding: 15px;
@@ -382,8 +382,12 @@ footer {
 }
 
 /********************* Account Menu *********************/
-.account-menu {
+.account-menu ul {
   padding-left: 20px;
+}
+
+.account-menu {
+  margin-top: 20px;
 }
 
 /********************* Hamburger Menu *********************/

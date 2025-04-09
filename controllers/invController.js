@@ -26,6 +26,7 @@ invCont.buildByClassificationId = async function (req, res, next) {
       title: className + " vehicles",
       nav,
       grid,
+      loggedin: req.session.loggedin,
     });
   } catch (error) {
     next(error);
@@ -48,6 +49,7 @@ invCont.buildInventoryDetail = async function (req, res, next) {
       title: `${vehicle.inv_make} ${vehicle.inv_model}`,
       nav,
       vehicleHtml,
+      loggedin: req.session.loggedin,
     });
   } catch (error) {
     next(error);
@@ -64,6 +66,7 @@ invCont.buildNewClassification = async function (req, res) {
     nav,
     notice: req.flash("notice"),
     errors: null,
+    loggedin: req.session.loggedin,
   });
 };
 
@@ -79,6 +82,7 @@ invCont.buildAddInventory = async function (req, res, next) {
     notice: req.flash("notice"),
     classificationList,
     errors: null,
+    loggedin: req.session.loggedin,
   });
 };
 
@@ -94,6 +98,7 @@ invCont.buildManagementView = async function (req, res, next) {
     notice: req.flash("notice"),
     errors: null,
     classificationList,
+    loggedin: req.session.loggedin,
   });
 };
 
@@ -111,6 +116,7 @@ invCont.addClassification = async function (req, res) {
       nav,
       errors,
       classification_name,
+      loggedin: req.session.loggedin,
     });
   }
 
@@ -125,6 +131,7 @@ invCont.addClassification = async function (req, res) {
       notice: req.flash("notice"),
       errors: null,
       message: "Classification added successfully!",
+      loggedin: req.session.loggedin,
     });
   } else {
     req.flash("notice", "Sorry, the classification could not be added.");
@@ -134,6 +141,7 @@ invCont.addClassification = async function (req, res) {
       notice: req.flash("notice"),
       errors: null,
       classification_name,
+      loggedin: req.session.loggedin,
     });
   }
 };
@@ -179,6 +187,7 @@ invCont.addInventory = async function (req, res) {
       title: "Inventory Management",
       nav,
       notice: req.flash("notice"),
+      loggedin: req.session.loggedin,
     });
   } else {
     req.flash("notice", "Failed to add vehicle.");
@@ -188,6 +197,7 @@ invCont.addInventory = async function (req, res) {
       classificationList,
       errors: null,
       notice: req.flash("notice"),
+      loggedin: req.session.loggedin,
       ...req.body,
     });
   }
@@ -240,6 +250,7 @@ invCont.editInventoryView = async function (req, res, next) {
     inv_miles: itemData.inv_miles,
     inv_color: itemData.inv_color,
     classification_id: itemData.classification_id,
+    loggedin: req.session.loggedin,
   });
 };
 
@@ -302,6 +313,7 @@ invCont.updateInventory = async function (req, res, next) {
       inv_color,
       classification_id,
       notice: req.flash("notice"),
+      loggedin: req.session.loggedin,
     });
   }
 };
@@ -329,6 +341,7 @@ invCont.deleteConfirmationView = async function (req, res, next) {
       inv_model: itemData.inv_model,
       inv_year: itemData.inv_year,
       inv_price: itemData.inv_price,
+      loggedin: req.session.loggedin,
     });
   } catch (error) {
     next(error);
