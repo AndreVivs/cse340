@@ -38,6 +38,9 @@ router.post(
   utilities.handleErrors(accountController.loginAccount)
 );
 
+// Route to handle logout
+router.get("/logout", utilities.handleErrors(accountController.logoutAccount));
+
 // Route to intentionally trigger a 500 error
 router.get("/trigger500", errorController.triggerError);
 

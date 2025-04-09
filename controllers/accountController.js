@@ -155,10 +155,20 @@ async function buildAccountManagement(req, res, next) {
   });
 }
 
+/* ****************************************
+ *  Deliver account management view
+ * *************************************** */
+async function logoutAccount(req, res, next) {
+  res.clearCookie("jwt");
+  req.flash("notice", "You have been logged out.");
+  res.redirect("/account/login");
+}
+
 module.exports = {
   buildLogin,
   buildRegister,
   registerAccount,
   loginAccount,
   buildAccountManagement,
+  logoutAccount,
 };

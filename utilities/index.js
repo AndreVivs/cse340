@@ -180,4 +180,25 @@ Util.checkLogin = (req, res, next) => {
   }
 };
 
+/* ****************************************
+ *  Check Login
+ * ************************************ */
+Util.checkJWTToken = (req, res, next) => {
+  const token = req.cookies.jwt;
+  if (token) {
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+      if (err) {
+        res.locals.loggedin = false;
+        return next();
+      }
+      res.locals.loggedin = true;
+      res.locals.accountData = decoded;
+      return next();
+    });
+  } else {
+    res.locals.loggedin = false;
+    next();
+  }
+};
+
 module.exports = Util;
