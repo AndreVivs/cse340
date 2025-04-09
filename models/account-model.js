@@ -37,7 +37,7 @@ async function checkExistingEmail(account_email) {
 }
 
 /* *****************************
- * Return account data using email address
+ * Return Account Data Using Email Address
  * ***************************** */
 async function getAccountByEmail(account_email) {
   try {
@@ -52,7 +52,7 @@ async function getAccountByEmail(account_email) {
 }
 
 /* *****************************
- * Return account data using account_id
+ * Return Account Data Using Account Id
  * ***************************** */
 async function getAccountById(account_id) {
   try {
@@ -85,6 +85,9 @@ async function updateAccount(account_id, firstName, lastName, email) {
   return result.rowCount;
 }
 
+/* *****************************
+ * Update Password
+ * *************************** */
 async function updatePassword(account_id, hashedPassword) {
   const sql = `
     UPDATE public.account

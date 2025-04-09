@@ -48,8 +48,7 @@ async function registerAccount(req, res) {
   // Hash the password before storing
   let hashedPassword;
   try {
-    // regular password and cost (salt is generated automatically)
-    hashedPassword = await bcrypt.hashSync(account_password, 10);
+    hashedPassword = bcrypt.hashSync(account_password, 10);
   } catch (error) {
     req.flash(
       "notice",
@@ -172,6 +171,9 @@ async function buildAccountManagement(req, res, next) {
   });
 }
 
+/* ****************************************
+ *  Deliver Update Account Form
+ * *************************************** */
 async function buildUpdateForm(req, res) {
   const accountId = req.params.accountId;
   const nav = await utilities.getNav();
@@ -193,7 +195,7 @@ async function buildUpdateForm(req, res) {
 }
 
 /* ****************************************
- *  Update account Information
+ *  Process Account Information Update
  * *************************************** */
 async function updateAccountInfo(req, res) {
   try {
@@ -237,7 +239,7 @@ async function updateAccountInfo(req, res) {
 }
 
 /* ****************************************
- *  Update account password
+ *  Process Password Account Update
  * *************************************** */
 async function updateAccountPassword(req, res) {
   const { account_id, account_password } = req.body;

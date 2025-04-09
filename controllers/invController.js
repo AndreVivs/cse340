@@ -5,7 +5,7 @@ const { validationResult } = require("express-validator");
 const invCont = {};
 
 /* ***************************
- *  Build inventory by classification view
+ *  Deliver inventory by classification view
  * ************************** */
 invCont.buildByClassificationId = async function (req, res, next) {
   try {
@@ -34,7 +34,7 @@ invCont.buildByClassificationId = async function (req, res, next) {
 };
 
 /* ***************************
- *  Build inventory item detail view
+ *  Deliver inventory item detail view
  * ************************** */
 invCont.buildInventoryDetail = async function (req, res, next) {
   try {
@@ -57,7 +57,7 @@ invCont.buildInventoryDetail = async function (req, res, next) {
 };
 
 /* ***************************
- *  Deliver Inventory Form View
+ *  Deliver New Classification View
  * ************************** */
 invCont.buildNewClassification = async function (req, res) {
   let nav = await utilities.getNav();
@@ -87,7 +87,7 @@ invCont.buildAddInventory = async function (req, res, next) {
 };
 
 /* ***************************
- *  Build Management View
+ *  Deliver Management View
  * ************************** */
 invCont.buildManagementView = async function (req, res, next) {
   let nav = await utilities.getNav();
@@ -103,7 +103,7 @@ invCont.buildManagementView = async function (req, res, next) {
 };
 
 /* ***************************
- *  Handle POST classification insertion
+ *  Handle Add Classification Insertion (POST)
  * ************************** */
 invCont.addClassification = async function (req, res) {
   const { classification_name } = req.body;
@@ -146,7 +146,9 @@ invCont.addClassification = async function (req, res) {
   }
 };
 
-// Handle form POST
+/* ***************************
+ *  Handle Add Inventory Insertion (POST)
+ * ************************** */
 invCont.addInventory = async function (req, res) {
   let nav = await utilities.getNav();
   let classificationList = await utilities.buildClassificationList(
@@ -219,7 +221,7 @@ invCont.getInventoryJSON = async (req, res, next) => {
 };
 
 /* ***************************
- *  Build edit inventory view
+ *  Deliver Edit Inventory View
  * ************************** */
 invCont.editInventoryView = async function (req, res, next) {
   const inv_id = parseInt(req.params.inv_id);
@@ -255,7 +257,7 @@ invCont.editInventoryView = async function (req, res, next) {
 };
 
 /* ***************************
- *  Update Inventory Data
+ *  Process Inventory Data Update
  * ************************** */
 invCont.updateInventory = async function (req, res, next) {
   let nav = await utilities.getNav();
@@ -319,7 +321,7 @@ invCont.updateInventory = async function (req, res, next) {
 };
 
 /* ***************************
- *  Build delete view
+ *  Deliver delete view
  * ************************** */
 invCont.deleteConfirmationView = async function (req, res, next) {
   try {
@@ -349,7 +351,7 @@ invCont.deleteConfirmationView = async function (req, res, next) {
 };
 
 /* ***************************
- *  Handle Delete Process
+ *  Process Delete Inventory Process
  * ************************** */
 invCont.deleteInventory = async function (req, res, next) {
   try {
@@ -358,10 +360,10 @@ invCont.deleteInventory = async function (req, res, next) {
 
     if (result) {
       req.flash("notice", "Item deleted successfully.");
-      res.redirect("/inv/"); // Redirect to the inventory management page
+      res.redirect("/inv/");
     } else {
       req.flash("notice", "Delete failed. Try again.");
-      res.redirect(`/inv/delete/${inv_id}`); // Re-show the confirmation page
+      res.redirect(`/inv/delete/${inv_id}`);
     }
   } catch (error) {
     next(error);
