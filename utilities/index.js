@@ -28,6 +28,26 @@ Util.getNav = async function (req, res, next) {
 };
 
 /* ****************************************
+ * Building Account Menu According to the type of account
+ **************************************** */
+Util.buildAccountMenu = (account_type) => {
+  let menuItems = [
+    `<li><a href="/account/update">Update account</a></li>`,
+    `<li><a href="/account/logout">Logout</a></li>`,
+  ];
+
+  if (account_type === "Employee" || account_type === "Admin") {
+    menuItems.unshift(`<li><a href="/inv">Manage Inventory</a></li>`);
+  }
+
+  return `
+    <ul>
+      ${menuItems.join("\n")}
+    </ul>
+  `;
+};
+
+/* ****************************************
  * Middleware For Handling Errors
  * Wrap other function in this for
  * General Error Handling
@@ -148,9 +168,10 @@ Util.buildClassificationList = async function (classification_id = null) {
  * Middleware to check token validity
  **************************************** */
 Util.checkJWTToken = (req, res, next) => {
-  if (req.cookies.jwt) {
+  const token = req.cookies.jwt;
+  if (token) {
     jwt.verify(
-      req.cookies.jwt,
+      token,
       process.env.ACCESS_TOKEN_SECRET,
       function (err, accountData) {
         if (err) {
@@ -177,27 +198,6 @@ Util.checkLogin = (req, res, next) => {
   } else {
     req.flash("notice", "Please log in.");
     return res.redirect("/account/login");
-  }
-};
-
-/* ****************************************
- *  Check Login
- * ************************************ */
-Util.checkJWTToken = (req, res, next) => {
-  const token = req.cookies.jwt;
-  if (token) {
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
-      if (err) {
-        res.locals.loggedin = false;
-        return next();
-      }
-      res.locals.loggedin = true;
-      res.locals.accountData = decoded;
-      return next();
-    });
-  } else {
-    res.locals.loggedin = false;
-    next();
   }
 };
 

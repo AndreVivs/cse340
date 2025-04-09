@@ -146,12 +146,17 @@ async function loginAccount(req, res) {
  * *************************************** */
 async function buildAccountManagement(req, res, next) {
   let nav = await utilities.getNav();
+  const account_type = res.locals.accountData.account_type;
+  const accountMenu = utilities.buildAccountMenu(account_type);
+
   res.render("account/management", {
     title: "Account Management",
+    accountMenu,
     nav,
     notice: req.flash("notice"),
     errors: null,
     message: "You're logged in",
+    decodedToken: res.locals.accountData,
   });
 }
 

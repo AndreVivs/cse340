@@ -381,6 +381,11 @@ footer {
   color: #084298;
 }
 
+/********************* Account Menu *********************/
+.account-menu {
+  padding-left: 20px;
+}
+
 /********************* Hamburger Menu *********************/
 /* #menu-toggle {
   background: none;
