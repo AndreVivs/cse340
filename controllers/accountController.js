@@ -8,14 +8,16 @@ require("dotenv").config();
  *  Deliver login view
  * *************************************** */
 async function buildLogin(req, res, next) {
-  let nav = await utilities.getNav();
+  const { nav, header } = await utilities.getNav(
+    res.locals.loggedin,
+    res.locals.accountData
+  );
   res.render("account/login", {
     title: "Login",
     nav,
+    header,
     notice: req.flash("notice"),
     errors: null,
-    loggedin: req.session.loggedin,
-    accountData: req.session.accountData,
   });
 }
 
@@ -23,13 +25,16 @@ async function buildLogin(req, res, next) {
  *  Deliver registration view
  * *************************************** */
 async function buildRegister(req, res, next) {
-  let nav = await utilities.getNav();
+  const { nav, header } = await utilities.getNav(
+    res.locals.loggedin,
+    res.locals.accountData
+  );
   res.render("account/registration", {
     title: "Register",
     nav,
+    header,
     notice: req.flash("notice"),
     errors: null,
-    loggedin: req.session.loggedin,
   });
 }
 
@@ -37,7 +42,10 @@ async function buildRegister(req, res, next) {
  *  Process Registration
  * *************************************** */
 async function registerAccount(req, res) {
-  let nav = await utilities.getNav();
+  const { nav, header } = await utilities.getNav(
+    res.locals.loggedin,
+    res.locals.accountData
+  );
   const {
     account_firstname,
     account_lastname,
@@ -57,9 +65,9 @@ async function registerAccount(req, res) {
     res.status(500).render("account/registration", {
       title: "Register",
       nav,
+      header,
       notice: req.flash("notice"),
       errors: null,
-      loggedin: req.session.loggedin,
     });
   }
 
@@ -78,18 +86,18 @@ async function registerAccount(req, res) {
     res.status(201).render("account/login", {
       title: "Login",
       nav,
+      header,
       notice: req.flash("notice"),
       errors: null,
-      loggedin: req.session.loggedin,
     });
   } else {
     req.flash("notice", "Sorry, the registration failed.");
     res.status(501).render("account/registration", {
       title: "Register",
       nav,
+      header,
       notice: req.flash("notice"),
       errors: null,
-      loggedin: req.session.loggedin,
     });
   }
 }
@@ -98,7 +106,10 @@ async function registerAccount(req, res) {
  *  Process login request
  * ************************************ */
 async function loginAccount(req, res) {
-  let nav = await utilities.getNav();
+  const { nav, header } = await utilities.getNav(
+    res.locals.loggedin,
+    res.locals.accountData
+  );
   const { account_email, account_password } = req.body;
   const accountData = await accountModel.getAccountByEmail(account_email);
   if (!accountData) {
@@ -106,9 +117,10 @@ async function loginAccount(req, res) {
     res.status(400).render("account/login", {
       title: "Login",
       nav,
+      header,
       errors: null,
       account_email,
-      loggedin: req.session.loggedin,
+      notice: req.flash("notice"),
     });
     return;
   }
@@ -131,16 +143,14 @@ async function loginAccount(req, res) {
       }
       return res.redirect("/account/");
     } else {
-      req.flash(
-        "message notice",
-        "Please check your credentials and try again."
-      );
+      req.flash("notice", "Please check your credentials and try again.");
       res.status(400).render("account/login", {
         title: "Login",
         nav,
+        header,
         errors: null,
         account_email,
-        loggedin: req.session.loggedin,
+        notice: req.flash("notice"),
       });
     }
   } catch (error) {
@@ -152,7 +162,10 @@ async function loginAccount(req, res) {
  *  Deliver account management view
  * *************************************** */
 async function buildAccountManagement(req, res, next) {
-  let nav = await utilities.getNav();
+  const { nav, header } = await utilities.getNav(
+    res.locals.loggedin,
+    res.locals.accountData
+  );
   const accountData = res.locals.accountData;
   const accountMenu = utilities.buildAccountMenu(
     accountData.account_type,
@@ -164,10 +177,10 @@ async function buildAccountManagement(req, res, next) {
     title: "Account Management",
     accountMenu,
     nav,
+    header,
     notice: req.flash("notice"),
     errors: null,
     message: "You're logged in",
-    loggedin: req.session.loggedin,
   });
 }
 
@@ -176,7 +189,10 @@ async function buildAccountManagement(req, res, next) {
  * *************************************** */
 async function buildUpdateForm(req, res) {
   const accountId = req.params.accountId;
-  const nav = await utilities.getNav();
+  const { nav, header } = await utilities.getNav(
+    res.locals.loggedin,
+    res.locals.accountData
+  );
   const accountData = await accountModel.getAccountById(accountId);
 
   if (!accountData) {
@@ -187,10 +203,10 @@ async function buildUpdateForm(req, res) {
   res.render("account/update", {
     title: "Update Account Information",
     nav,
+    header,
     accountData,
     errors: null,
     notice: req.flash("notice"),
-    // loggedin: req.session.loggedin,
   });
 }
 
@@ -213,8 +229,10 @@ async function updateAccountInfo(req, res) {
       req.flash("notice", "Account information updated successfully.");
       res.redirect("/account/");
     } else {
-      // En caso de error, recuperamos los datos originales para mostrar en el formulario
-      const nav = await utilities.getNav();
+      const { nav, header } = await utilities.getNav(
+        res.locals.loggedin,
+        res.locals.accountData
+      );
       const accountData = {
         account_id,
         account_firstname,
@@ -225,10 +243,10 @@ async function updateAccountInfo(req, res) {
       res.render("account/update", {
         title: "Update Account Information",
         nav,
+        header,
         accountData,
         errors: null,
         notice: req.flash("notice"),
-        loggedin: req.session.loggedin,
       });
     }
   } catch (error) {
@@ -259,14 +277,16 @@ async function updateAccountPassword(req, res) {
 }
 
 /* ****************************************
- *  Logout account return Home page
+ *  Logout account and return to Home page
  * *************************************** */
-async function logoutAccount(req, res, next) {
-  const accountData = res.locals.accountData;
-  const loggedin = req.session.loggedin;
-  res.clearCookie("jwt");
+async function logoutAccount(req, res) {
+  res.clearCookie("jwt", { path: "/", httpOnly: true });
+  // res.clearCookie("sessionId", { path: "/", httpOnly: true });
+  // res.clearCookie("connect.sid", { path: "/", httpOnly: true });
+
   req.flash("notice", "You have been logged out.");
-  res.redirect("/", accountData, loggedin);
+
+  return res.redirect("/");
 }
 
 module.exports = {

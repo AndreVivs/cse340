@@ -64,16 +64,19 @@ validate.checkRegData = async (req, res, next) => {
   let errors = [];
   errors = validationResult(req);
   if (!errors.isEmpty()) {
-    let nav = await utilities.getNav();
+    const { nav, header } = await utilities.getNav(
+      res.locals.loggedin,
+      res.locals.accountData
+    );
     res.render("account/registration", {
       errors,
       title: "Register",
       nav,
+      header,
       account_firstname,
       account_lastname,
       account_email,
       notice: null,
-      loggedin: req.session.loggedin,
     });
     return;
   }
@@ -126,11 +129,15 @@ validate.checkLoginData = async (req, res, next) => {
   errors = validationResult(req);
   console.log("The errors:", errors.array());
   if (!errors.isEmpty()) {
-    let nav = await utilities.getNav();
+    const { nav, header } = await utilities.getNav(
+      res.locals.loggedin,
+      res.locals.accountData
+    );
     res.render("account/login", {
       errors,
       title: "Login",
       nav,
+      header,
       notice: null,
       account_email,
     });
@@ -168,10 +175,14 @@ validate.checkUpdateAccountData = async (req, res, next) => {
   let errors = [];
   errors = validationResult(req);
   if (!errors.isEmpty()) {
-    let nav = await utilities.getNav();
+    const { nav, header } = await utilities.getNav(
+      res.locals.loggedin,
+      res.locals.accountData
+    );
     res.render("account/update", {
       title: "Update Account Information",
       nav,
+      header,
       errors,
       notice: req.flash("notice"),
       account_id,
@@ -179,7 +190,6 @@ validate.checkUpdateAccountData = async (req, res, next) => {
       account_lastname,
       account_email,
       notice: null,
-      loggedin: req.session.loggedin,
     });
     return;
   }
@@ -215,16 +225,19 @@ validate.checkPasswordData = async (req, res, next) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-    const nav = await utilities.getNav();
+    const { nav, header } = await utilities.getNav(
+      res.locals.loggedin,
+      res.locals.accountData
+    );
     const accountData = await accountModel.getAccountById(account_id);
 
     res.render("account/update", {
       title: "Update Account Information",
       nav,
+      header,
       accountData,
       errors,
       notice: req.flash("notice"),
-      loggedin: req.session.loggedin,
     });
     return;
   }

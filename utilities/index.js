@@ -6,7 +6,7 @@ require("dotenv").config();
 /* ************************
  * Constructs the nav HTML unordered list
  ************************** */
-Util.getNav = async function (req, res, next) {
+Util.getNav = async function (loggedin, accountData) {
   let data = await invModel.getClassifications();
   console.log(data);
   let list = "<ul>";
@@ -24,7 +24,32 @@ Util.getNav = async function (req, res, next) {
     list += "</li>";
   });
   list += "</ul>";
-  return list;
+
+  let header = Util.buildHeader(loggedin, accountData);
+
+  return { nav: list, header };
+};
+
+Util.buildHeader = (loggedin, accountData) => {
+  let myAccount = "";
+  let cseMotors = `
+<span class="siteName">
+    <a href="/" title="Return to home page">CSE Motors</a>
+  </span>`;
+
+  if (loggedin && accountData) {
+    myAccount = `
+    <div id="tools">
+      <a href="/account" title="Manage your account"
+      >Welcome, ${accountData.account_firstname}</a
+      >
+      <a href="/account/logout" title="Click to logout">Logout</a></div>`;
+  } else {
+    myAccount = `<div id="tools"><a title="Click to log in" href="/account/login">MY ACCOUNT</a></div>`;
+  }
+
+  return `${cseMotors}
+  ${myAccount}`;
 };
 
 Util.buildAccountMenu = (account_type, account_id, account_firstname) => {
@@ -33,7 +58,6 @@ Util.buildAccountMenu = (account_type, account_id, account_firstname) => {
 
   if (account_type === "Client") {
     greeting = `<h2>Welcome ${account_firstname}</h2>`;
-    // extraContent = `<p><a href="/account/update/${account_id}">Update account information</a></p>`;
   } else if (account_type === "Employee" || account_type === "Admin") {
     greeting = `<h2>Welcome Happy, ${account_firstname}</h2>`;
     extraContent = `
@@ -46,10 +70,6 @@ Util.buildAccountMenu = (account_type, account_id, account_firstname) => {
     `<li><a href="/account/update/${account_id}">Update account</a></li>`,
     `<li><a href="/account/logout">Logout</a></li>`,
   ];
-
-  // if (account_type === "Employee" || account_type === "Admin") {
-  //   menuItems.unshift(`<li><a href="/inv">Manage Inventory</a></li>`);
-  // }
 
   return `
     ${greeting}
@@ -183,22 +203,17 @@ Util.buildClassificationList = async function (classification_id = null) {
 Util.checkJWTToken = (req, res, next) => {
   const token = req.cookies.jwt;
   if (token) {
-    jwt.verify(
-      token,
-      process.env.ACCESS_TOKEN_SECRET,
-      function (err, decoded, accountData) {
-        if (err) {
-          req.flash("Please log in");
-          res.clearCookie("jwt");
-          res.locals.loggedin = 0;
-          return res.redirect("/account/login");
-        }
-        res.locals.accountData = accountData;
-        res.locals.loggedin = 1;
-        res.locals.accountData = decoded;
-        next();
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, function (err, decoded) {
+      if (err) {
+        req.flash("notice", "Please log in.");
+        res.clearCookie("jwt");
+        res.locals.loggedin = 0;
+        return res.redirect("/account/login");
       }
-    );
+      res.locals.accountData = decoded;
+      res.locals.loggedin = 1;
+      next();
+    });
   } else {
     res.locals.loggedin = 0;
     next();

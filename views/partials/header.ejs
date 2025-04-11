@@ -1,16 +1,1 @@
-<header id="top-header">
-  <span class="siteName">
-    <a href="/" title="Return to home page">CSE Motors</a>
-  </span>
-  <div id="tools">
-    <% if (accountData) { %>
-    <a href="/account" title="Manage your account"
-      >Welcome, <%= accountData.account_firstname %></a
-    >
-    <a href="/account/logout" title="Click to logout">Logout</a>
-    <% } else { %>
-    <a title="Click to log in" href="/account/login">MY ACCOUNT</a>
-    <% } %>
-  </div>
-  <!-- <button id="menu-toggle" aria-label="Toggle navigation">&#9776;</button> -->
-</header>
+<header id="top-header"><%- header %></header>

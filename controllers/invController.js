@@ -1,7 +1,6 @@
 const invModel = require("../models/inventory-model");
 const utilities = require("../utilities/");
 const { validationResult } = require("express-validator");
-
 const invCont = {};
 
 /* ***************************
@@ -20,13 +19,16 @@ invCont.buildByClassificationId = async function (req, res, next) {
       };
     }
     const grid = await utilities.buildClassificationGrid(data);
-    let nav = await utilities.getNav();
+    const { nav, header } = await utilities.getNav(
+      res.locals.loggedin,
+      res.locals.accountData
+    );
     const className = data[0].classification_name;
     res.render("./inventory/classification", {
       title: className + " vehicles",
       nav,
+      header,
       grid,
-      loggedin: req.session.loggedin,
     });
   } catch (error) {
     next(error);
@@ -43,13 +45,16 @@ invCont.buildInventoryDetail = async function (req, res, next) {
     if (!vehicle) {
       throw { status: 404, message: "Vehicle not found." };
     }
-    let nav = await utilities.getNav();
+    const { nav, header } = await utilities.getNav(
+      res.locals.loggedin,
+      res.locals.accountData
+    );
     const vehicleHtml = utilities.buildVehicleDetail(vehicle);
     res.render("./inventory/detail", {
       title: `${vehicle.inv_make} ${vehicle.inv_model}`,
       nav,
+      header,
       vehicleHtml,
-      loggedin: req.session.loggedin,
     });
   } catch (error) {
     next(error);
@@ -60,13 +65,20 @@ invCont.buildInventoryDetail = async function (req, res, next) {
  *  Deliver New Classification View
  * ************************** */
 invCont.buildNewClassification = async function (req, res) {
-  let nav = await utilities.getNav();
+  const { nav, header } = await utilities.getNav(
+    res.locals.loggedin,
+    res.locals.accountData
+  );
+
+  const classificationList = await utilities.buildClassificationList();
+
   res.render("./inventory/add-classification", {
     title: "Add New Classification",
     nav,
+    header,
+    classificationList,
     notice: req.flash("notice"),
     errors: null,
-    loggedin: req.session.loggedin,
   });
 };
 
@@ -74,15 +86,18 @@ invCont.buildNewClassification = async function (req, res) {
  *  Deliver Inventory Form View
  * ************************** */
 invCont.buildAddInventory = async function (req, res, next) {
-  let nav = await utilities.getNav();
+  const { nav, header } = await utilities.getNav(
+    res.locals.loggedin,
+    res.locals.accountData
+  );
   let classificationList = await utilities.buildClassificationList();
   res.render("./inventory/add-inventory", {
     title: "Add New Vehicle",
     nav,
+    header,
     notice: req.flash("notice"),
     classificationList,
     errors: null,
-    loggedin: req.session.loggedin,
   });
 };
 
@@ -90,15 +105,18 @@ invCont.buildAddInventory = async function (req, res, next) {
  *  Deliver Management View
  * ************************** */
 invCont.buildManagementView = async function (req, res, next) {
-  let nav = await utilities.getNav();
+  const { nav, header } = await utilities.getNav(
+    res.locals.loggedin,
+    res.locals.accountData
+  );
   let classificationList = await utilities.buildClassificationList();
   res.render("inventory/management", {
     title: "Vehicle Management",
     nav,
+    header,
     notice: req.flash("notice"),
     errors: null,
     classificationList,
-    loggedin: req.session.loggedin,
   });
 };
 
@@ -108,15 +126,17 @@ invCont.buildManagementView = async function (req, res, next) {
 invCont.addClassification = async function (req, res) {
   const { classification_name } = req.body;
   const errors = validationResult(req);
-  const nav = await utilities.getNav();
-
+  const { nav, header } = await utilities.getNav(
+    res.locals.loggedin,
+    res.locals.accountData
+  );
   if (!errors.isEmpty()) {
     return res.status(400).render("inventory/add-classification", {
       title: "Add Classification",
       nav,
+      header,
       errors,
       classification_name,
-      loggedin: req.session.loggedin,
     });
   }
 
@@ -124,24 +144,16 @@ invCont.addClassification = async function (req, res) {
 
   if (result) {
     req.flash("notice", "Classification added successfully!");
-    const nav = await utilities.getNav(); // updated nav with new classification
-    return res.status(201).render("inventory/management", {
-      title: "Management",
-      nav,
-      notice: req.flash("notice"),
-      errors: null,
-      message: "Classification added successfully!",
-      loggedin: req.session.loggedin,
-    });
+    return res.redirect("/inv/");
   } else {
     req.flash("notice", "Sorry, the classification could not be added.");
     return res.status(500).render("inventory/add-classification", {
       title: "Add Classification",
       nav,
+      header,
       notice: req.flash("notice"),
       errors: null,
       classification_name,
-      loggedin: req.session.loggedin,
     });
   }
 };
@@ -150,7 +162,11 @@ invCont.addClassification = async function (req, res) {
  *  Handle Add Inventory Insertion (POST)
  * ************************** */
 invCont.addInventory = async function (req, res) {
-  let nav = await utilities.getNav();
+  const { nav, header } = await utilities.getNav(
+    res.locals.loggedin,
+    res.locals.accountData
+  );
+
   let classificationList = await utilities.buildClassificationList(
     req.body.classification_id
   );
@@ -184,22 +200,29 @@ invCont.addInventory = async function (req, res) {
 
   if (result) {
     req.flash("notice", "Vehicle successfully added!");
-    nav = await utilities.getNav();
+    const { nav, header } = await utilities.getNav(
+      res.locals.loggedin,
+      res.locals.accountData
+    );
+    let classificationList = await utilities.buildClassificationList();
     res.status(201).render("./inventory/management", {
       title: "Inventory Management",
       nav,
+      header,
+      classificationList,
+      errors: null,
       notice: req.flash("notice"),
-      loggedin: req.session.loggedin,
     });
   } else {
     req.flash("notice", "Failed to add vehicle.");
     res.status(500).render("./inventory/add-inventory", {
       title: "Add New Inventory",
       nav,
+      header,
       classificationList,
       errors: null,
       notice: req.flash("notice"),
-      loggedin: req.session.loggedin,
+
       ...req.body,
     });
   }
@@ -225,8 +248,10 @@ invCont.getInventoryJSON = async (req, res, next) => {
  * ************************** */
 invCont.editInventoryView = async function (req, res, next) {
   const inv_id = parseInt(req.params.inv_id);
-  let nav = await utilities.getNav();
-
+  const { nav, header } = await utilities.getNav(
+    res.locals.loggedin,
+    res.locals.accountData
+  );
   const itemData = await invModel.getInventoryById(inv_id);
 
   const classificationSelect = await utilities.buildClassificationList(
@@ -238,6 +263,7 @@ invCont.editInventoryView = async function (req, res, next) {
   res.render("./inventory/edit-inventory", {
     title: "Edit " + itemName,
     nav,
+    header,
     classificationSelect: classificationSelect,
     errors: null,
     notice: req.flash("notice"),
@@ -252,7 +278,6 @@ invCont.editInventoryView = async function (req, res, next) {
     inv_miles: itemData.inv_miles,
     inv_color: itemData.inv_color,
     classification_id: itemData.classification_id,
-    loggedin: req.session.loggedin,
   });
 };
 
@@ -260,7 +285,10 @@ invCont.editInventoryView = async function (req, res, next) {
  *  Process Inventory Data Update
  * ************************** */
 invCont.updateInventory = async function (req, res, next) {
-  let nav = await utilities.getNav();
+  const { nav, header } = await utilities.getNav(
+    res.locals.loggedin,
+    res.locals.accountData
+  );
   const {
     inv_id,
     inv_make,
@@ -301,6 +329,7 @@ invCont.updateInventory = async function (req, res, next) {
     res.status(501).render("inventory/edit-inventory", {
       title: "Edit " + itemName,
       nav,
+      header,
       classificationSelect: classificationSelect,
       errors: null,
       inv_id,
@@ -315,7 +344,6 @@ invCont.updateInventory = async function (req, res, next) {
       inv_color,
       classification_id,
       notice: req.flash("notice"),
-      loggedin: req.session.loggedin,
     });
   }
 };
@@ -332,10 +360,14 @@ invCont.deleteConfirmationView = async function (req, res, next) {
       throw { status: 404, message: "Item not found." };
     }
 
-    let nav = await utilities.getNav();
+    const { nav, header } = await utilities.getNav(
+      res.locals.loggedin,
+      res.locals.accountData
+    );
     res.render("./inventory/delete-confirm", {
       title: "Confirm Deletion",
       nav,
+      header,
       errors: null,
       notice: req.flash("notice"),
       inv_id: itemData.inv_id,
@@ -343,7 +375,6 @@ invCont.deleteConfirmationView = async function (req, res, next) {
       inv_model: itemData.inv_model,
       inv_year: itemData.inv_year,
       inv_price: itemData.inv_price,
-      loggedin: req.session.loggedin,
     });
   } catch (error) {
     next(error);

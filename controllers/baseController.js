@@ -6,12 +6,15 @@ const baseController = {};
  * *************************************** */
 baseController.buildHome = async function (req, res, next) {
   try {
-    const nav = await utilities.getNav();
+    const { nav, header } = await utilities.getNav(
+      res.locals.loggedin,
+      res.locals.accountData
+    );
     res.render("index", {
       title: "Home",
       nav,
-      loggedin: req.session.loggedin,
-      accountData: req.session.accountData,
+      header,
+      notice: req.flash("notice"),
     });
   } catch (error) {
     next(error);

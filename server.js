@@ -5,6 +5,7 @@
 /* ***********************
  * Require Statements
  *************************/
+const jwt = require("jsonwebtoken");
 const session = require("express-session");
 const pool = require("./database/");
 const express = require("express");
@@ -51,8 +52,34 @@ app.use(utilities.checkJWTToken);
  * Express Messages Middleware
  *************************/
 app.use(require("connect-flash")());
+app.use((req, res, next) => {
+  res.locals.notice = req.flash("notice");
+  next();
+});
 app.use(function (req, res, next) {
   res.locals.messages = require("express-messages")(req, res);
+  next();
+});
+
+/* ***********************
+ * Add Global Middleware
+ *************************/
+app.use(async (req, res, next) => {
+  res.locals.loggedin = false;
+  res.locals.accountData = null;
+
+  const token = req.cookies.jwt;
+  if (token) {
+    try {
+      const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+      res.locals.loggedin = true;
+      res.locals.accountData = decoded;
+    } catch (err) {
+      console.error("JWT verification failed:", err);
+      res.clearCookie("jwt");
+    }
+  }
+
   next();
 });
 
@@ -78,7 +105,10 @@ app.use(async (req, res, next) => {
  * Place after all other middleware
  *************************/
 app.use(async (err, req, res, next) => {
-  let nav = await utilities.getNav();
+  const { nav, header } = await utilities.getNav(
+    res.locals.loggedin,
+    res.locals.accountData
+  );
   console.error(`Error at: "${req.originalUrl}": ${err.message}`);
   const status = err.status || 500;
   const message =
@@ -86,13 +116,11 @@ app.use(async (err, req, res, next) => {
       ? err.message
       : "Oh no! There was a crash. Maybe try a different route?";
 
-  //const randomFact = funFacts[Math.floor(Math.random() * funFacts.length)];
-
   res.status(status).render("errors/error", {
     title: status,
     message,
-    //randomFact,
     nav,
+    header,
   });
 });
 
