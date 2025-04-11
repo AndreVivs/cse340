@@ -1,6 +1,6 @@
 <h1><%= title %></h1>
 
-<!-- <% if (notice && notice.length > 0) { %>
+<% if (notice && notice.length > 0) { %>
 <div class="notice">
   <ul>
     <% notice.forEach(msg => { %>
@@ -14,18 +14,6 @@
   <li><%= error.msg %></li>
   <% }) %>
 </ul>
-<% } %> -->
-
-<% if (notice && notice.length > 0) { %>
-<div class="notice">
-  <ul>
-    <% notice.forEach(msg => { %>
-    <li><%= msg %></li>
-    <% }) %>
-  </ul>
-</div>
-<% } else { %>
-<p>No hay mensajes flash.</p>
 <% } %>
 
 <p><%= message %></p>

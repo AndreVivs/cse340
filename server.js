@@ -52,10 +52,6 @@ app.use(utilities.checkJWTToken);
  * Express Messages Middleware
  *************************/
 app.use(require("connect-flash")());
-app.use((req, res, next) => {
-  res.locals.notice = req.flash("notice");
-  next();
-});
 app.use(function (req, res, next) {
   res.locals.messages = require("express-messages")(req, res);
   next();
