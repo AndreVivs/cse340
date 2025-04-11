@@ -76,6 +76,8 @@ app.use(async (req, res, next) => {
     }
   }
 
+  res.locals.notice = req.flash("notice");
+
   next();
 });
 

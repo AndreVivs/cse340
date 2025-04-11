@@ -14,7 +14,6 @@ baseController.buildHome = async function (req, res, next) {
       title: "Home",
       nav,
       header,
-      notice: req.flash("notice"),
     });
   } catch (error) {
     next(error);

@@ -1,8 +1,12 @@
 <h1><%= title %></h1>
 
 <% if (notice && notice.length > 0) { %>
-<div class="info-message">
-  <p><%= notice[0] %></p>
+<div class="notice">
+  <ul>
+    <% notice.forEach(msg => { %>
+    <li><%= msg %></li>
+    <% }) %>
+  </ul>
 </div>
 <% } %> <% if (errors) { %>
 <ul class="notice">

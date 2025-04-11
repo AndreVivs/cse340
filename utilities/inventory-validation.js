@@ -30,7 +30,6 @@ validate.checkClassificationData = async (req, res, next) => {
       title: "Add New Classification",
       nav,
       errors,
-      notice: req.flash("notice"),
       classification_name,
     });
     return;
@@ -78,7 +77,6 @@ validate.checkInventoryData = async (req, res, next) => {
       nav,
       classificationList,
       errors,
-      notice: req.flash("notice"),
       ...req.body,
     });
     return;
@@ -98,7 +96,6 @@ validate.checkUpdateData = async (req, res, next) => {
       nav,
       classificationList,
       errors,
-      notice: req.flash("notice"),
       inv_id: req.params.inv_id,
       ...req.body,
     });

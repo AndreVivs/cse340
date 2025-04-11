@@ -232,4 +232,16 @@ Util.checkLogin = (req, res, next) => {
   }
 };
 
+/* ****************************************
+ *  Middleware Authorization
+ * ************************************ */
+Util.requireEmployeeOrAdmin = (req, res, next) => {
+  const accountType = res.locals.accountData?.account_type;
+  if (accountType === "Employee" || accountType === "Admin") {
+    return next();
+  }
+  req.flash("notice", "You do not have permission to view this page.");
+  return res.redirect("/account");
+};
+
 module.exports = Util;

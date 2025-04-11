@@ -16,7 +16,6 @@ async function buildLogin(req, res, next) {
     title: "Login",
     nav,
     header,
-    notice: req.flash("notice"),
     errors: null,
   });
 }
@@ -33,7 +32,6 @@ async function buildRegister(req, res, next) {
     title: "Register",
     nav,
     header,
-    notice: req.flash("notice"),
     errors: null,
   });
 }
@@ -66,7 +64,6 @@ async function registerAccount(req, res) {
       title: "Register",
       nav,
       header,
-      notice: req.flash("notice"),
       errors: null,
     });
   }
@@ -87,7 +84,6 @@ async function registerAccount(req, res) {
       title: "Login",
       nav,
       header,
-      notice: req.flash("notice"),
       errors: null,
     });
   } else {
@@ -96,7 +92,6 @@ async function registerAccount(req, res) {
       title: "Register",
       nav,
       header,
-      notice: req.flash("notice"),
       errors: null,
     });
   }
@@ -120,7 +115,6 @@ async function loginAccount(req, res) {
       header,
       errors: null,
       account_email,
-      notice: req.flash("notice"),
     });
     return;
   }
@@ -150,7 +144,6 @@ async function loginAccount(req, res) {
         header,
         errors: null,
         account_email,
-        notice: req.flash("notice"),
       });
     }
   } catch (error) {
@@ -178,7 +171,6 @@ async function buildAccountManagement(req, res, next) {
     accountMenu,
     nav,
     header,
-    notice: req.flash("notice"),
     errors: null,
     message: "You're logged in",
   });
@@ -206,7 +198,6 @@ async function buildUpdateForm(req, res) {
     header,
     accountData,
     errors: null,
-    notice: req.flash("notice"),
   });
 }
 
@@ -246,7 +237,6 @@ async function updateAccountInfo(req, res) {
         header,
         accountData,
         errors: null,
-        notice: req.flash("notice"),
       });
     }
   } catch (error) {

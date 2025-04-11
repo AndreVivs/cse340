@@ -77,7 +77,6 @@ invCont.buildNewClassification = async function (req, res) {
     nav,
     header,
     classificationList,
-    notice: req.flash("notice"),
     errors: null,
   });
 };
@@ -95,7 +94,6 @@ invCont.buildAddInventory = async function (req, res, next) {
     title: "Add New Vehicle",
     nav,
     header,
-    notice: req.flash("notice"),
     classificationList,
     errors: null,
   });
@@ -114,7 +112,6 @@ invCont.buildManagementView = async function (req, res, next) {
     title: "Vehicle Management",
     nav,
     header,
-    notice: req.flash("notice"),
     errors: null,
     classificationList,
   });
@@ -266,7 +263,6 @@ invCont.editInventoryView = async function (req, res, next) {
     header,
     classificationSelect: classificationSelect,
     errors: null,
-    notice: req.flash("notice"),
     inv_id: itemData.inv_id,
     inv_make: itemData.inv_make,
     inv_model: itemData.inv_model,
@@ -369,7 +365,6 @@ invCont.deleteConfirmationView = async function (req, res, next) {
       nav,
       header,
       errors: null,
-      notice: req.flash("notice"),
       inv_id: itemData.inv_id,
       inv_make: itemData.inv_make,
       inv_model: itemData.inv_model,

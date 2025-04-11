@@ -76,7 +76,6 @@ validate.checkRegData = async (req, res, next) => {
       account_firstname,
       account_lastname,
       account_email,
-      notice: null,
     });
     return;
   }
@@ -138,7 +137,6 @@ validate.checkLoginData = async (req, res, next) => {
       title: "Login",
       nav,
       header,
-      notice: null,
       account_email,
     });
     return;
@@ -184,12 +182,10 @@ validate.checkUpdateAccountData = async (req, res, next) => {
       nav,
       header,
       errors,
-      notice: req.flash("notice"),
       account_id,
       account_firstname,
       account_lastname,
       account_email,
-      notice: null,
     });
     return;
   }
@@ -237,7 +233,6 @@ validate.checkPasswordData = async (req, res, next) => {
       header,
       accountData,
       errors,
-      notice: req.flash("notice"),
     });
     return;
   }

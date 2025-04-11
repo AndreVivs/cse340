@@ -3,7 +3,9 @@
 <% if (notice && notice.length > 0) { %>
 <div class="notice">
   <ul>
-    <li><%= notice[0] %></li>
+    <% notice.forEach(msg => { %>
+    <li><%= msg %></li>
+    <% }) %>
   </ul>
 </div>
 <% } %> <% if (errors) { %>
