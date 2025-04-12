@@ -9,7 +9,7 @@ const errorController = require("../controllers/errorController");
 // Página principal de la cuenta (Account Management)
 router.get(
   "/",
-  //utilities.checkLogin,
+  utilities.checkLogin,
   utilities.handleErrors(accountController.buildAccountManagement)
 );
 
@@ -41,7 +41,7 @@ router.post(
 // Mostrar el formulario de actualización
 router.get(
   "/update/:accountId",
-  //utilities.checkLogin,
+  utilities.checkLogin,
   utilities.handleErrors(accountController.buildUpdateForm)
 );
 

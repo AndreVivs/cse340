@@ -127,12 +127,29 @@ invCont.addClassification = async function (req, res) {
     res.locals.loggedin,
     res.locals.accountData
   );
+
   if (!errors.isEmpty()) {
     return res.status(400).render("inventory/add-classification", {
       title: "Add Classification",
       nav,
       header,
       errors,
+      classification_name,
+    });
+  }
+
+  const checkExisting = await invModel.checkClassificationExists(
+    classification_name
+  );
+
+  if (checkExisting) {
+    return res.status(400).render("inventory/add-classification", {
+      title: "Add Classification",
+      nav,
+      header,
+      errors: {
+        array: () => [{ msg: "That classification already exists." }],
+      },
       classification_name,
     });
   }

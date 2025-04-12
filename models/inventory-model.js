@@ -55,13 +55,20 @@ async function getInventoryById(invId) {
  * ************************** */
 async function insertClassification(classification_name) {
   try {
+    const checkSql =
+      "SELECT * FROM classification WHERE classification_name = $1";
+    const checkResult = await pool.query(checkSql, [classification_name]);
+
+    if (checkResult.rows.length > 0) {
+      return { exists: true };
+    }
     const sql =
       "INSERT INTO classification (classification_name) VALUES ($1) RETURNING *";
     const data = await pool.query(sql, [classification_name]);
-    return data.rows[0];
+    return { success: true, row: data.rows[0] };
   } catch (error) {
     console.error("insertClassification error:", error);
-    return null;
+    return { success: false, error };
   }
 }
 
@@ -157,6 +164,21 @@ async function deleteInventoryItem(inv_id) {
   }
 }
 
+/* ***************************
+ *  Check if a classification already exists
+ * ************************** */
+async function checkClassificationExists(classification_name) {
+  try {
+    const sql =
+      "SELECT classification_id FROM classification WHERE classification_name = $1";
+    const result = await pool.query(sql, [classification_name]);
+    return result.rows.length > 0;
+  } catch (error) {
+    console.error("Error checking classification existence:", error);
+    return false;
+  }
+}
+
 module.exports = {
   getClassifications,
   getInventoryByClassificationId,
@@ -165,4 +187,5 @@ module.exports = {
   addInventoryItem,
   updateInventory,
   deleteInventoryItem,
+  checkClassificationExists,
 };
