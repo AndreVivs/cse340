@@ -3,7 +3,6 @@ const express = require("express");
 const router = new express.Router();
 const invController = require("../controllers/invController");
 const utilities = require("../utilities/");
-const errorController = require("../controllers/errorController");
 const invValidation = require("../utilities/inventory-validation");
 
 // Página principal del inventario
@@ -91,8 +90,5 @@ router.post(
   utilities.requireEmployeeOrAdmin,
   utilities.handleErrors(invController.deleteInventory)
 );
-
-// Route to intentionally trigger a 500 error
-router.get("/trigger500", errorController.triggerError);
 
 module.exports = router;
