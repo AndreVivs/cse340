@@ -65,6 +65,7 @@ async function registerAccount(req, res) {
       nav,
       header,
       errors: null,
+      notice: req.flash("notice"),
     });
   }
 
@@ -85,6 +86,7 @@ async function registerAccount(req, res) {
       nav,
       header,
       errors: null,
+      notice: req.flash("notice"),
     });
   } else {
     req.flash("notice", "Sorry, the registration failed.");
@@ -93,6 +95,7 @@ async function registerAccount(req, res) {
       nav,
       header,
       errors: null,
+      notice: req.flash("notice"),
     });
   }
 }
@@ -115,6 +118,7 @@ async function loginAccount(req, res) {
       header,
       errors: null,
       account_email,
+      notice: req.flash("notice"),
     });
     return;
   }
@@ -144,6 +148,7 @@ async function loginAccount(req, res) {
         header,
         errors: null,
         account_email,
+        notice: req.flash("notice"),
       });
     }
   } catch (error) {
@@ -217,8 +222,43 @@ async function updateAccountInfo(req, res) {
     );
 
     if (updateResult) {
+      const updatedAccount = await accountModel.getAccountById(account_id);
+      const accessToken = jwt.sign(
+        {
+          account_id: updatedAccount.account_id,
+          account_firstname: updatedAccount.account_firstname,
+          account_lastname: updatedAccount.account_lastname,
+          account_email: updatedAccount.account_email,
+          account_type: updatedAccount.account_type,
+        },
+        process.env.ACCESS_TOKEN_SECRET,
+        { expiresIn: "2h" }
+      );
+
+      res.cookie("jwt", accessToken, { httpOnly: true });
+
+      req.session.accountData = updatedAccount;
+      res.locals.accountData = updatedAccount;
+
+      const { nav, header } = await utilities.getNav(true, updatedAccount);
+      const accountMenu = utilities.buildAccountMenu(
+        updatedAccount.account_type,
+        updatedAccount.account_id,
+        updatedAccount.account_firstname
+      );
+
       req.flash("notice", "Account information updated successfully.");
-      res.redirect("/account/");
+
+      res.render("account/management", {
+        title: "Account Management",
+        nav,
+        header,
+        accountMenu,
+        errors: null,
+        message: "You're logged in",
+        accountData: updatedAccount,
+        notice: req.flash("notice"),
+      });
     } else {
       const { nav, header } = await utilities.getNav(
         res.locals.loggedin,
@@ -229,7 +269,6 @@ async function updateAccountInfo(req, res) {
         account_firstname,
         account_lastname,
         account_email,
-        notice: req.flash("notice"),
       };
       req.flash("notice", "Update failed. Please try again.");
       res.render("account/update", {

@@ -264,6 +264,8 @@ section li {
 
 fieldset {
   padding: 20px 10px;
+  display: flex;
+  flex-direction: column;
 }
 
 fieldset legend {
@@ -295,17 +297,24 @@ button {
   border-radius: 10px;
 }
 
-select {
+#classification_id {
   width: 90%;
-  margin: 10px auto;
+  margin: 0.7rem auto;
+  padding: 9px;
+  border-radius: 10px;
+}
+
+select {
+  width: 50%;
+  margin: 0.7rem auto;
   padding: 9px;
   border-radius: 10px;
 }
 
 textarea {
   width: 90%;
-  margin: 10px auto;
-  padding: 9px;
+  margin: 10px;
+  padding: 10px;
   border-radius: 10px;
 }
 
@@ -360,9 +369,7 @@ footer {
 
 #inventoryDisplay {
   width: 95%;
-  margin: 0 auto;
   border-collapse: collapse;
-  margin-top: 1rem;
   font-family: sans-serif;
   font-size: 0.95rem;
   color: #333;
