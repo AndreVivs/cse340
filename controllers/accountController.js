@@ -229,6 +229,7 @@ async function updateAccountInfo(req, res) {
         account_firstname,
         account_lastname,
         account_email,
+        notice: req.flash("notice"),
       };
       req.flash("notice", "Update failed. Please try again.");
       res.render("account/update", {
@@ -237,6 +238,7 @@ async function updateAccountInfo(req, res) {
         header,
         accountData,
         errors: null,
+        notice: req.flash("notice"),
       });
     }
   } catch (error) {
@@ -250,19 +252,42 @@ async function updateAccountInfo(req, res) {
  *  Process Password Account Update
  * *************************************** */
 async function updateAccountPassword(req, res) {
-  const { account_id, account_password } = req.body;
-  const hashedPassword = await bcrypt.hash(account_password, 10);
-  const updateResult = await accountModel.updatePassword(
-    account_id,
-    hashedPassword
-  );
+  try {
+    const { account_id, account_password } = req.body;
+    const hashedPassword = await bcrypt.hash(account_password, 10);
+    const updateResult = await accountModel.updatePassword(
+      account_id,
+      hashedPassword
+    );
 
-  if (updateResult) {
-    req.flash("notice", "Password updated successfully.");
-    res.redirect("/account/");
-  } else {
-    req.flash("notice", "Password update failed. Try again.");
-    res.redirect(`/account/update/${account_id}`);
+    if (updateResult) {
+      req.flash("notice", "Password updated successfully.");
+      res.redirect("/account/");
+    } else {
+      const { nav, header } = await utilities.getNav(
+        res.locals.loggedin,
+        res.locals.accountData
+      );
+      const accountData = {
+        account_id,
+        account_firstname,
+        account_lastname,
+        account_email,
+        notice: req.flash("notice"),
+      };
+      req.flash("notice", "Password update failed. Try again.");
+      res.render("/account/update-password/", {
+        title: "Update Account Information",
+        nav,
+        header,
+        accountData,
+        errors: null,
+        notice: req.flash("notice"),
+      });
+    }
+  } catch (error) {
+    console.error("Error updating password:", error);
+    req.flash("notice", "An unexpected error occurred.");
   }
 }
 
