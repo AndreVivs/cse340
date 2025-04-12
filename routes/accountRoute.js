@@ -26,7 +26,7 @@ router.get(
 router.post(
   "/registration",
   regValidate.registationRules(),
-  //regValidate.checkRegData,
+  regValidate.checkRegData,
   utilities.handleErrors(accountController.registerAccount)
 );
 
@@ -34,7 +34,7 @@ router.post(
 router.post(
   "/login",
   regValidate.loginRules(),
-  //regValidate.checkLoginData,
+  regValidate.checkLoginData,
   utilities.handleErrors(accountController.loginAccount)
 );
 
@@ -49,7 +49,7 @@ router.get(
 router.post(
   "/update",
   regValidate.updateAccountRules(),
-  //regValidate.checkUpdateAccountData,
+  regValidate.checkUpdateAccountData,
   utilities.handleErrors(accountController.updateAccountInfo)
 );
 
@@ -57,7 +57,7 @@ router.post(
 router.post(
   "/update-password",
   regValidate.passwordChangeRules(),
-  //regValidate.checkPasswordData,
+  regValidate.checkPasswordData,
   utilities.handleErrors(accountController.updateAccountPassword)
 );
 
