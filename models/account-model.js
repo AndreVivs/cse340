@@ -69,7 +69,12 @@ async function getAccountById(account_id) {
 /* *****************************
  * Update account information
  * *************************** */
-async function updateAccount(account_id, firstName, lastName, email) {
+async function updateAccount(
+  account_id,
+  account_firstname,
+  account_lastname,
+  account_email
+) {
   const sql = `
     UPDATE public.account
     SET account_firstname = $1, account_lastname = $2, account_email = $3
@@ -77,9 +82,9 @@ async function updateAccount(account_id, firstName, lastName, email) {
     RETURNING *;
   `;
   const result = await pool.query(sql, [
-    firstName,
-    lastName,
-    email,
+    account_firstname,
+    account_lastname,
+    account_email,
     account_id,
   ]);
   return result.rowCount;

@@ -250,6 +250,11 @@ section li {
   background-color: #add8e6;
   padding: 15px;
 }
+
+.form__conuntour p {
+  margin: 10px 5px;
+}
+
 .background-form {
   width: 100%;
   background-color: #32475c;
@@ -261,6 +266,10 @@ fieldset {
   padding: 20px 10px;
 }
 
+fieldset legend {
+  color: var(--white);
+}
+
 form fieldset label {
   color: #e6f4ea;
   margin-left: 4%;
@@ -268,8 +277,9 @@ form fieldset label {
 }
 
 form fieldset p {
+  text-align: center;
   color: #e6f4ea;
-  margin: 5px 35%;
+  margin: 5px;
 }
 
 form fieldset span {
@@ -300,13 +310,14 @@ textarea {
 }
 
 button {
-  width: 40%;
+  display: block;
+  width: 170px;
   background-color: var(--white);
   font-size: medium;
   color: #32475c;
   border: none;
   cursor: pointer;
-  margin: 10px 30%;
+  margin: 10px auto;
 }
 
 button:hover {
@@ -329,6 +340,10 @@ input:focus:invalid {
 input:required:valid {
   color: var(--nav-color);
   /* insert your own styles for valid form input */
+}
+
+form fieldset p a {
+  color: var(--white);
 }
 
 /********************* Footer *********************/
