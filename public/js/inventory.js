@@ -1,9 +1,11 @@
 "use strict";
 
-// Get a list of items in inventory based on the classification_id
 const classificationList = document.querySelector("#classification_id");
 const deleteButtonContainer = document.getElementById("classificationButton");
 
+/* ****************************************
+ *  Classification List
+ * *************************************** */
 classificationList.addEventListener("change", async () => {
   const classification_id = classificationList.value;
 
@@ -31,6 +33,9 @@ classificationList.addEventListener("change", async () => {
   }
 });
 
+/* ****************************************
+ *  Delete Button for Classification
+ * *************************************** */
 function renderDeleteButton(classification_id) {
   removeDeleteButton();
   const buttonHTML = `
@@ -70,12 +75,17 @@ function renderDeleteButton(classification_id) {
   });
 }
 
+/* ****************************************
+ *  Remove Delete Button Just in Case
+ * *************************************** */
 function removeDeleteButton() {
   const existingBtn = document.getElementById("deleteClassificationBtn");
   if (existingBtn) existingBtn.remove();
 }
 
-// Build inventory items into HTML table components and inject into DOM
+/* ****************************************
+ *  Build Inventory List - Table
+ * *************************************** */
 function buildInventoryList(data) {
   let inventoryDisplay = document.getElementById("inventoryDisplay");
 

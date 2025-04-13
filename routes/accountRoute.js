@@ -5,7 +5,7 @@ const router = new express.Router();
 const accountController = require("../controllers/accountController");
 const utilities = require("../utilities/");
 
-// Página principal de la cuenta (Account Management)
+// Home (Account Management)
 router.get(
   "/",
   utilities.checkLogin,
@@ -37,14 +37,14 @@ router.post(
   utilities.handleErrors(accountController.loginAccount)
 );
 
-// Mostrar el formulario de actualización
+// Show update form
 router.get(
   "/update/:accountId",
   utilities.checkLogin,
   utilities.handleErrors(accountController.buildUpdateForm)
 );
 
-// Actualizar datos de la cuenta
+// Update Account Information
 router.post(
   "/update",
   regValidate.updateAccountRules(),
@@ -52,7 +52,7 @@ router.post(
   utilities.handleErrors(accountController.updateAccountInfo)
 );
 
-// Cambiar contraseña
+// Change Password
 router.post(
   "/update-password",
   regValidate.passwordChangeRules(),

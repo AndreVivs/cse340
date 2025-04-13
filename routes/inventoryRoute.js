@@ -5,7 +5,7 @@ const invController = require("../controllers/invController");
 const utilities = require("../utilities/");
 const invValidation = require("../utilities/inventory-validation");
 
-// Página principal del inventario
+// Home (Management View)
 router.get(
   "/",
   utilities.requireEmployeeOrAdmin,
@@ -19,14 +19,14 @@ router.get(
   utilities.handleErrors(invController.getInventoryJSON)
 );
 
-// Mostrar el formulario
+// Show add classification form
 router.get(
   "/add-classification",
   utilities.requireEmployeeOrAdmin,
   utilities.handleErrors(invController.buildNewClassification)
 );
 
-// Procesar el formulario
+// Handle add classification form
 router.post(
   "/add-classification",
   invValidation.classificationRules(),
@@ -35,7 +35,7 @@ router.post(
   utilities.handleErrors(invController.addClassification)
 );
 
-// Show the form
+// Show add inventory - vehicle form
 router.get("/add-inventory", invController.buildAddInventory);
 
 // Handle the form submission

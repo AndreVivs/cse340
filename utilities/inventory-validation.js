@@ -3,9 +3,9 @@ const utilities = require(".");
 const { body, validationResult } = require("express-validator");
 const validate = {};
 
-// /* ***********************************
-//  *  Classification Validation Rules
-//  * ********************************** */
+/* ***********************************
+ *  Classification Validation Rules
+ * ********************************** */
 validate.classificationRules = () => {
   return [
     body("classification_name")
@@ -17,9 +17,9 @@ validate.classificationRules = () => {
   ];
 };
 
-// /* ***********************************
-//  *  Errors Validation Rules
-//  * ********************************** */
+/* ***********************************
+ *  Errors Validation Rules
+ * ********************************** */
 validate.checkClassificationData = async (req, res, next) => {
   const { classification_name } = req.body;
   const errors = validationResult(req);
@@ -37,6 +37,9 @@ validate.checkClassificationData = async (req, res, next) => {
   next();
 };
 
+/* ***********************************
+ *  Inventory Validation Rules
+ * ********************************** */
 validate.inventoryRules = () => {
   return [
     body("classification_id")
@@ -65,6 +68,9 @@ validate.inventoryRules = () => {
   ];
 };
 
+/* ***********************************
+ *  Inventory Validation Check
+ * ********************************** */
 validate.checkInventoryData = async (req, res, next) => {
   const errors = validationResult(req);
   const classificationList = await utilities.buildClassificationList(
@@ -84,6 +90,9 @@ validate.checkInventoryData = async (req, res, next) => {
   next();
 };
 
+/* ***********************************
+ *  Inventory Update Validation Check
+ * ********************************** */
 validate.checkUpdateData = async (req, res, next) => {
   const errors = validationResult(req);
   const classificationList = await utilities.buildClassificationList(
