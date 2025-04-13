@@ -1,7 +1,7 @@
 <h1><%= title %></h1>
 
 <% if (notice && notice.length > 0) { %>
-<div class="info-message">
+<div class="notice">
   <p><%= notice[0] %></p>
 </div>
 <% } %>
@@ -19,8 +19,12 @@
   </p>
 </div>
 
-<label for="classification_id">Classifications:</label>
-<%- classificationList %>
+<div class="classification-section">
+  <label for="classification_id">Classifications:</label>
+  <%- classificationList %>
+  <div id="classificationButton" class="classification-button"></div>
+</div>
+
 <table id="inventoryDisplay">
   <caption class="sr-only">
     Inventory list by classification

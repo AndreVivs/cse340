@@ -155,6 +155,29 @@ section li {
   padding-left: 20px;
 }
 
+.classification-section {
+  display: flex;
+  height: 65px;
+  width: 97%;
+  flex-direction: row;
+  margin-bottom: 10px;
+  gap: 1%;
+}
+
+.classification-section label {
+  align-self: center;
+}
+
+.btn-delete-classification {
+  width: 60%;
+  background-color: var(--white);
+  font-size: medium;
+  color: #32475c;
+  border: none;
+  cursor: pointer;
+  margin-right: 35%;
+}
+
 /********************* Custom Vehicles *********************/
 
 #inv-display {
@@ -298,9 +321,9 @@ button {
 }
 
 #classification_id {
-  width: 90%;
-  margin: 0.7rem auto;
-  padding: 9px;
+  width: 50%;
+  margin: 0.7rem;
+  padding: 10px;
   border-radius: 10px;
 }
 

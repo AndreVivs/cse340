@@ -1,31 +1,79 @@
 "use strict";
 
 // Get a list of items in inventory based on the classification_id
-let classificationList = document.querySelector("#classification_id");
+const classificationList = document.querySelector("#classification_id");
+const deleteButtonContainer = document.getElementById("classificationButton");
 
-classificationList.addEventListener("change", function () {
-  let classification_id = classificationList.value;
-  console.log(`classification_id is: ${classification_id}`);
+classificationList.addEventListener("change", async () => {
+  const classification_id = classificationList.value;
 
-  let classIdURL = "/inv/getInventory/" + classification_id;
+  try {
+    const inventoryRes = await fetch(`/inv/getInventory/${classification_id}`);
+    const data = inventoryRes.ok ? await inventoryRes.json() : [];
+    buildInventoryList(data);
+  } catch (error) {
+    console.error("Error fetching inventory:", error);
+  }
 
-  fetch(classIdURL)
-    .then(function (response) {
-      if (response.ok) {
-        return response.json();
-      }
-      // The throw Error was commented for UX feedback -> if its available the catch get it
-      // and buildInventoryList recieive an error. If we didn't send the error at least
-      // pass to the function as undefinded
-      //throw Error("Network response was not OK");
-    })
-    .then(function (data) {
-      buildInventoryList(data);
-    })
-    .catch(function (error) {
-      console.log("There was a problem: ", error.message);
-    });
+  try {
+    const res = await fetch(
+      `/inv/can-delete-classification/${classification_id}`
+    );
+    const { canDelete } = await res.json();
+
+    if (canDelete) {
+      renderDeleteButton(classification_id);
+    } else {
+      removeDeleteButton();
+    }
+  } catch (error) {
+    console.error("Error checking if can delete classification:", error);
+  }
 });
+
+function renderDeleteButton(classification_id) {
+  removeDeleteButton();
+  const buttonHTML = `
+    <button
+      id="deleteClassificationBtn"
+      class="btn-delete-classification"
+    > 🗑️ </button>
+  `;
+
+  deleteButtonContainer.innerHTML = buttonHTML;
+  const deleteBtn = document.getElementById("deleteClassificationBtn");
+
+  deleteBtn.addEventListener("click", async () => {
+    const confirmed = confirm(
+      "⚠️ WARNING: Deleting this classification will also permanently delete ALL associated vehicles. Continue?"
+    );
+    if (!confirmed) return;
+
+    try {
+      const res = await fetch(
+        `/inv/delete-classification/${classification_id}`,
+        {
+          method: "POST",
+        }
+      );
+
+      if (res.ok) {
+        window.location.href = "/inv/";
+      } else {
+        const result = await res.json();
+        alert(result.message || "Could not delete classification.");
+      }
+    } catch (err) {
+      console.error("Error deleting classification:", err);
+      alert("Something went wrong.");
+    }
+  });
+}
+
+function removeDeleteButton() {
+  const existingBtn = document.getElementById("deleteClassificationBtn");
+  if (existingBtn) existingBtn.remove();
+}
 
 // Build inventory items into HTML table components and inject into DOM
 function buildInventoryList(data) {

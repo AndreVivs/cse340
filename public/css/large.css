@@ -123,6 +123,11 @@
     margin-left: 2%;
   }
 
+  fieldset #classification_id {
+    width: 90%;
+    margin: 10px;
+  }
+
   button {
     width: 90%;
     margin: 10px auto;
@@ -167,9 +172,7 @@
   }
   /********************* Form *********************/
   #classification_id {
-    width: 90%;
-    padding: 10px;
-    border-radius: 10px;
+    width: 70%;
     margin: 10px;
   }
 
@@ -191,4 +194,17 @@
     display: flex !important;
     flex-direction: row;
   } */
+
+  .classification-section {
+    display: flex;
+    height: 60px;
+    width: 65%;
+    flex-direction: row;
+    margin-bottom: 10px;
+    justify-content: space-between;
+  }
+
+  .btn-delete-classification {
+    width: 100%;
+  }
 }

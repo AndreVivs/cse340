@@ -91,4 +91,16 @@ router.post(
   utilities.handleErrors(invController.deleteInventory)
 );
 
+// Route to delete classification by ID
+router.get(
+  "/can-delete-classification/:classification_id",
+  utilities.handleErrors(invController.canDeleteClassification)
+);
+
+// Route to delete classification by ID
+router.post(
+  "/delete-classification/:classification_id",
+  utilities.handleErrors(invController.deleteClassification)
+);
+
 module.exports = router;

@@ -179,6 +179,30 @@ async function checkClassificationExists(classification_name) {
   }
 }
 
+async function deleteVehiclesByClassification(classification_id) {
+  try {
+    const deleteSql = "DELETE FROM inventory WHERE classification_id = $1";
+    const result = await pool.query(deleteSql, [classification_id]);
+    return { success: true, count: result.rowCount };
+  } catch (error) {
+    console.error("deleteVehiclesByClassification error:", error);
+    return { success: false, error };
+  }
+}
+
+async function deleteClassificationById(classification_id) {
+  try {
+    const deleteSql = "DELETE FROM classification WHERE classification_id = $1";
+    const result = await pool.query(deleteSql, [classification_id]);
+    return result.rowCount > 0
+      ? { success: true }
+      : { success: false, reason: "not_found" };
+  } catch (error) {
+    console.error("deleteClassification error:", error);
+    return { success: false, error };
+  }
+}
+
 module.exports = {
   getClassifications,
   getInventoryByClassificationId,
@@ -188,4 +212,6 @@ module.exports = {
   updateInventory,
   deleteInventoryItem,
   checkClassificationExists,
+  deleteVehiclesByClassification,
+  deleteClassificationById,
 };

@@ -413,4 +413,52 @@ invCont.deleteInventory = async function (req, res, next) {
   }
 };
 
+/* ***************************
+ *  Authorization to Delete Classification
+ * ************************** */
+invCont.canDeleteClassification = async function (req, res, next) {
+  try {
+    const accountType = res.locals.accountData?.account_type;
+
+    if (accountType === "Admin") {
+      return res.json({ canDelete: true });
+    } else {
+      return res.json({ canDelete: false });
+    }
+  } catch (error) {
+    console.error("Error in canDeleteClassification:", error);
+    res.status(500).json({ canDelete: false });
+  }
+};
+
+/* ***************************
+ *  Process Delete Classification Process
+ * ************************** */
+invCont.deleteClassification = async function (req, res, next) {
+  try {
+    const { classification_id } = req.params;
+
+    const deleteVehiclesResult = await invModel.deleteVehiclesByClassification(
+      classification_id
+    );
+
+    const deleteClassificationResult = await invModel.deleteClassificationById(
+      classification_id
+    );
+
+    if (deleteClassificationResult.success) {
+      req.flash(
+        "notice",
+        `Classification and ${deleteVehiclesResult.count} vehicles deleted.`
+      );
+      return res.json({ success: true });
+    } else {
+      req.flash("notice", "Unable to delete classification.");
+      return res.status(400).json({ success: false });
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = invCont;
