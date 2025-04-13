@@ -104,6 +104,19 @@ async function updatePassword(account_id, hashedPassword) {
   return result.rowCount;
 }
 
+/* *****************************
+ * Get User Count by Account Type
+ * *************************** */
+async function getUserCountByType() {
+  const query = `
+    SELECT account_type, COUNT(*) AS count
+    FROM account
+    GROUP BY account_type;
+  `;
+  const result = await pool.query(query);
+  return result.rows;
+}
+
 module.exports = {
   registerAccount,
   checkExistingEmail,
@@ -111,4 +124,5 @@ module.exports = {
   getAccountById,
   updateAccount,
   updatePassword,
+  getUserCountByType,
 };

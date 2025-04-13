@@ -1,4 +1,5 @@
 const invModel = require("../models/inventory-model");
+const accountModel = require("../models/account-model");
 const utilities = require("../utilities/");
 const { validationResult } = require("express-validator");
 const invCont = {};
@@ -456,6 +457,31 @@ invCont.deleteClassification = async function (req, res, next) {
       req.flash("notice", "Unable to delete classification.");
       return res.status(400).json({ success: false });
     }
+  } catch (error) {
+    next(error);
+  }
+};
+
+/* ***************************
+ * Deliver Dashboard View
+ * ************************** */
+invCont.showDashboard = async function (req, res, next) {
+  try {
+    const { nav, header } = await utilities.getNav(
+      res.locals.loggedin,
+      res.locals.accountData
+    );
+
+    const vehicleStats = await invModel.getVehicleCountByClassification();
+    const userStats = await accountModel.getUserCountByType();
+
+    res.render("inventory/dashboard", {
+      title: "Administrative Dashboard",
+      nav,
+      header,
+      vehicleStats,
+      userStats,
+    });
   } catch (error) {
     next(error);
   }

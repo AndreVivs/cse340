@@ -179,6 +179,9 @@ async function checkClassificationExists(classification_name) {
   }
 }
 
+/* ***************************
+ *  Delete vehicles by classification ID
+ * ************************** */
 async function deleteVehiclesByClassification(classification_id) {
   try {
     const deleteSql = "DELETE FROM inventory WHERE classification_id = $1";
@@ -190,6 +193,9 @@ async function deleteVehiclesByClassification(classification_id) {
   }
 }
 
+/* ***************************
+ *  Delete a classification by ID
+ * ************************** */
 async function deleteClassificationById(classification_id) {
   try {
     const deleteSql = "DELETE FROM classification WHERE classification_id = $1";
@@ -203,6 +209,21 @@ async function deleteClassificationById(classification_id) {
   }
 }
 
+/* ***************************
+ *  Get vehicle count by classification
+ * ************************** */
+async function getVehicleCountByClassification() {
+  const query = `
+    SELECT c.classification_name, COUNT(*) AS count
+    FROM inventory i
+    JOIN classification c ON i.classification_id = c.classification_id
+    GROUP BY c.classification_name
+    ORDER BY count DESC;
+  `;
+  const result = await pool.query(query);
+  return result.rows;
+}
+
 module.exports = {
   getClassifications,
   getInventoryByClassificationId,
@@ -214,4 +235,5 @@ module.exports = {
   checkClassificationExists,
   deleteVehiclesByClassification,
   deleteClassificationById,
+  getVehicleCountByClassification,
 };

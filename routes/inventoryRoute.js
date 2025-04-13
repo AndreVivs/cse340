@@ -103,4 +103,11 @@ router.post(
   utilities.handleErrors(invController.deleteClassification)
 );
 
+router.get(
+  "/dashboard",
+  utilities.checkLogin,
+  utilities.checkAccountType(["Admin"]),
+  utilities.handleErrors(invController.showDashboard)
+);
+
 module.exports = router;

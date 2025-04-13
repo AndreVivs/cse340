@@ -58,9 +58,17 @@ Util.buildAccountMenu = (account_type, account_id, account_firstname) => {
 
   if (account_type === "Client") {
     greeting = `<h2>Welcome ${account_firstname}</h2>`;
-  } else if (account_type === "Employee" || account_type === "Admin") {
+  } else if (account_type === "Employee") {
     greeting = `<h2>Welcome Happy, ${account_firstname}</h2>`;
     extraContent = `
+      <h3>Inventory Management</h3>
+      <p><a href="/inv">Access Inventory Management</a></p>
+    `;
+  } else if (account_type === "Admin") {
+    greeting = `<h2>Welcome Happy, ${account_firstname}</h2>`;
+    extraContent = `
+      <h3>Dashboard</h3>
+      <p><a href="/inv/dashboard">Access Dashboard</a></p>
       <h3>Inventory Management</h3>
       <p><a href="/inv">Access Inventory Management</a></p>
     `;
@@ -242,6 +250,17 @@ Util.requireEmployeeOrAdmin = (req, res, next) => {
   }
   req.flash("notice", "You do not have permission to view this page.");
   return res.redirect("/account");
+};
+
+Util.checkAccountType = (allowedTypes = []) => {
+  return (req, res, next) => {
+    const user = res.locals.accountData;
+    if (!user || !allowedTypes.includes(user.account_type)) {
+      req.flash("notice", "You do not have permission to view this page.");
+      return res.redirect("/account/");
+    }
+    next();
+  };
 };
 
 module.exports = Util;

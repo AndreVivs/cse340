@@ -1,4 +1,5 @@
 {
+    "html.validate.scripts": false,
     "sqltools.connections": [
         {
             "pgOptions": {

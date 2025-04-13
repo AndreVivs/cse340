@@ -456,3 +456,12 @@ footer {
 #main-nav ul.show {
   display: flex;
 } */
+
+/********************* Admin Dashboar *********************/
+#vehiclesChart,
+#usersChart {
+  max-width: 80%;
+  max-height: fit-content;
+  margin: 20px;
+  padding: 20px;
+}
